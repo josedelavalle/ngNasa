@@ -1,0 +1,112 @@
+
+
+<!-- Banner -->
+  <div id="banner" style="background: url({{data.hdurl}}) no-repeat;">
+    <div class="container">
+      <section>
+
+        <span class="image-border"><a href="#" class="image"><img src="images/logo.png" alt="" /></a></span>
+        <p slide-toggle="#picDetails" id="navToggle" class="icon fa-times"></p>
+        <header>
+          <h2>{{pageTitle}}</h2>
+          <span id="picDetails" class="byline slideable" showonload="true">
+
+
+
+            <p>{{data.date}}</p>
+            <h3>{{data.copyright}}</h3>
+            <p>{{data.explanation}}</p>
+          </span>
+        </header>
+        <a href="https://api.nasa.gov/index.html" class="button">powered by api.nasa.gov</a>
+      </section>
+    </div>
+  </div>
+
+<!-- Featured -->
+  <div id="featured">
+    <div class="container">
+      <header>
+        <h2>MARS Rover</h2>
+
+      </header>
+      <hr />
+      <div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="{{$index}}" ng-repeat="data in soundData" ng-class="{active : $first}"></li>
+      </ol>
+
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner" role="listbox">
+
+
+        <div class="item" ng-repeat="data in soundData" ng-class="{active : $first}">
+          <img ng-src="{{mars[$index % mars.length].img_src}}">
+          <div class="carousel-caption">
+            <h3>{{data.title}}</h3>
+            <p>{{data.last_modified}}</p>
+          </div>
+        </div>
+
+
+      </div>
+
+      <!-- Left and right controls -->
+
+    </div>
+      <!-- <ul class="list">
+        <li class="list-item" ng-repeat="data in soundData">
+          <div class="list-content">
+            <header>
+              <h2>{{data.title}}</h2>
+
+            </header>
+            <img src="" alt="" />
+            <p class="box-style">{{data.last_modified}}</p>
+            <a href="#" class="button">BUTTON</a>
+          </div>
+        </li>
+      </ul> -->
+    </div>
+  </div>
+
+<!-- Main -->
+  <div id="main">
+    <div class="container">
+      <section>
+        <header>
+          <h2>EPIC Images</h2>
+          <span class="byline">Earth Polychromatic Imaging Camera</span>
+        </header>
+        <span class="divider">&nbsp;</span>
+      </section>
+
+
+      <div id="myCarousel2" class="carousel slide carousel-fade" data-ride="carousel" data-interval="2000">
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+          <div class="item active">
+            <img ng-src="http://epic.gsfc.nasa.gov/epic-archive/natural/jpg/{{epic[0].image}}.jpg" alt="">
+            <div class="carousel-caption">
+
+              <p>{{epic[0].date}}</p>
+            </div>
+          </div>
+          <div class="item" ng-repeat="data in epic" ng-if="$index > 0">
+            <img ng-src="http://epic.gsfc.nasa.gov/epic-archive/natural/jpg/{{data.image}}.jpg" alt="">
+            <div class="carousel-caption">
+
+              <p>{{data.date}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+
+    </div>
+  </div>
+
+  <div ng-include="'partials/footer.html'"></div>

@@ -1,0 +1,8 @@
+/*
+	Venue by Pixelarity
+	pixelarity.com @pixelarity
+	License: pixelarity.com/license
+*/
+/* Basic */
+body:before, body:after {
+  display: none; }

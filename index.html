@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<!--
+	Venue by Pixelarity
+	pixelarity.com @pixelarity
+	License: pixelarity.com/license
+-->
+<html ng-app="myApp">
+	<head>
+		<title>Untitled</title>
+		<base href="/">
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+
+	</head>
+	<body class="homepage">
+
+		<div id="page-wrapper">
+			<!-- Header -->
+			  <div id="header">
+			    <div class="container">
+
+			      <!-- Logo -->
+			        <h1 id="logo"><a href="/">Welcome</a></h1>
+
+			        <div ng-include="'partials/nav.html'"></div>
+
+			    </div>
+			  </div>
+
+				<div ng-view></div>
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>-
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+			<script src="node_modules/angular/angular.min.js"></script>
+			<script src="./node_modules/angular-route/angular-route.min.js"></script>
+			<script src="./node_modules/angular-animate/angular-animate.min.js"></script>
+			<script src="assets/js/app.js"></script>
+
+	</body>
+</html>
