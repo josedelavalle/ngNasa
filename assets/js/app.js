@@ -30,9 +30,15 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
   });
 }]);
 
-app.controller("appController", ['$scope', 'getData', 'getSounds', 'getEpic', 'getMars', function($scope, getData, getSounds, getEpic, getMars) {
+app.controller("appController", ['$scope', 'getData', 'getSounds', 'getEpic', 'getMars', 'getImagery', 'getCoordinates', 'geolocationSvc', function($scope, getData, getSounds, getEpic, getMars, getImagery, getCoordinates, geolocationSvc) {
   $scope.pageTitle = "Picture of the Day";
 	$scope.headerTitle = "Jose DeLavalle";
+	$scope.defaultSearch = "New York";
+	$scope.rotate = true;
+	$scope.rotateIcon = function() {
+			$scope.rotate = !$scope.rotate;
+
+	};
   getData.get().then(function (msg) {
       $scope.data = msg.data;
       console.log($scope.data);
@@ -53,10 +59,44 @@ app.controller("appController", ['$scope', 'getData', 'getSounds', 'getEpic', 'g
       console.log($scope.epic);
   });
 
+
+
   getMars.get().then(function (msg) {
       $scope.mars = msg.data.photos;
       console.log($scope.mars);
   });
+
+	var lon = "100.75";
+	var lat = "2.5";
+	var thisDate = "2014-02-01";
+
+
+
+	$scope.goGetCoordinates = function (loc) {
+		$scope.imagery = {date: "Searching"};
+		getCoordinates.get(loc).then(function (msg) {
+	      $scope.coordinates = msg.data.results[0].geometry.location;
+	      console.log($scope.coordinates);
+				getImagery.get($scope.coordinates.lat, $scope.coordinates.lng, '2016-01-01').then(function (msg) {
+			      $scope.imagery = msg.data;
+			      console.log($scope.imagery);
+			  });
+	  });
+	}
+
+	$scope.getUserLocation = function captureUserLocation() {
+		$scope.imagery = {date: "Searching"};
+    geolocationSvc.getCurrentPosition().then(function (onUserLocationFound) {
+			// console.log(onUserLocationFound);
+			$scope.coordinates = {lat: onUserLocationFound.coords.latitude, lng: onUserLocationFound.coords.longitude};
+
+			getImagery.get($scope.coordinates.lat, $scope.coordinates.lng, '2016-01-01').then(function (msg) {
+					$scope.imagery = msg.data;
+					// console.log($scope.imagery);
+			});
+		});
+	}
+
 }]);
 
 app.factory('getData', function ($http) {
@@ -90,6 +130,52 @@ app.factory('getMars', function ($http) {
         }
     };
 });
+
+app.factory('getImagery', function ($http) {
+    return {
+        get: function (lat, lon, thisDate) {
+						var thisURL = 'https://api.nasa.gov/planetary/earth/imagery?lon=' + lon + '&lat=' + lat + '&date=' + thisDate + '&cloud_score=True&api_key=sFBD6hSaJ9HBP6U8qhXaBv6v9pKcTYtICStGJlOA'
+						console.log(thisURL);
+            return $http.get(thisURL);
+						// return $http.get('https://api.nasa.gov/planetary/earth/imagery?lon=' + lon + '&lat=' + lat + '&date=2014-02-01&cloud_score=True&api_key=sFBD6hSaJ9HBP6U8qhXaBv6v9pKcTYtICStGJlOA');
+        }
+    };
+});
+
+app.factory('getCoordinates', function ($http) {
+		return {
+				get: function (loc) {
+						return $http.get(encodeURI('http://maps.googleapis.com/maps/api/geocode/json?address=' + loc));
+				}
+		};
+});
+
+app.factory('geolocationSvc', ['$q', '$window', function ($q, $window) {
+
+    'use strict';
+
+    function getCurrentPosition() {
+        var deferred = $q.defer();
+
+        if (!$window.navigator.geolocation) {
+            deferred.reject('Geolocation not supported.');
+        } else {
+            $window.navigator.geolocation.getCurrentPosition(
+                function (position) {
+                    deferred.resolve(position);
+                },
+                function (err) {
+                    deferred.reject(err);
+                });
+        }
+
+        return deferred.promise;
+    }
+
+    return {
+        getCurrentPosition: getCurrentPosition
+    };
+}]);
 
 app.directive('slideable', function () {
     return {
@@ -147,5 +233,19 @@ app.directive('slideToggle', function() {
                 attrs.expanded = !attrs.expanded;
             });
         }
+    };
+});
+
+app.directive('myEnter', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.myEnter);
+                });
+
+                event.preventDefault();
+            }
+        });
     };
 });

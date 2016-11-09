@@ -36,7 +36,7 @@
 				alignment: 'center'
 			});
 
-			
+
 		// Off-Canvas Navigation.
 
 			// Title Bar.

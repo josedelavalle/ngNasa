@@ -114,6 +114,46 @@
   animation: slideOutLeft 0.5s both ease-in-out;
   z-index: 8889; }
 
+.rotate {
+  -moz-transition: all 0.5s linear;
+  -webkit-transition: all 0.5s linear;
+  transition: all 0.5s linear; }
+
+.rotate.down {
+  -moz-transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg); }
+
+@-webkit-keyframes spin1 {
+  0% {
+    -webkit-transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(180deg); } }
+
+@-moz-keyframes spin1 {
+  0% {
+    -moz-transform: rotate(0deg); }
+  100% {
+    -moz-transform: rotate(180deg); } }
+
+@-o-keyframes spin1 {
+  0% {
+    -o-transform: rotate(0deg); }
+  100% {
+    -o-transform: rotate(180deg); } }
+
+@-ms-keyframes spin1 {
+  0% {
+    -ms-transform: rotate(0deg); }
+  100% {
+    -ms-transform: rotate(180deg); } }
+
+@-keyframes spin1 {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(180deg); } }
+
 /*
 	Venue by Pixelarity
 	pixelarity.com @pixelarity
@@ -1228,7 +1268,7 @@ ul.style1 {
     color: #353535; }
 
 ul.style2 a:hover {
-  text-decoration: underline; }
+  text-decoration: none; }
 
 ul.default {
   list-style: disc;
@@ -1286,7 +1326,7 @@ ul.info a {
   text-decoration: none;
   color: #898e96; }
   ul.info a:hover {
-    text-decoration: underline; }
+    text-decoration: none; }
 
 ul.social {
   padding-top: 0.2em;
@@ -1397,7 +1437,8 @@ table {
   color: #fff;
   cursor: pointer; }
   .button:hover {
-    background: #5587BF; }
+    background: #5587BF;
+    text-decoration: none; }
   .button.alt {
     background: #4D5251;
     border-bottom-color: #3D4241; }
@@ -1601,7 +1642,7 @@ body:after {
     #banner header .byline {
       display: inline-block;
       width: auto;
-      padding: 1em 5em 1em 5em !important;
+      padding: 0em !important;
       color: #fff; }
   #banner .image {
     margin-bottom: 2em;
@@ -1680,7 +1721,7 @@ body:after {
 #myCarousel {
   text-align: center;
   margin: auto;
-  max-height: 400px; }
+  height: 100%; }
   #myCarousel img {
     width: 100%; }
   #myCarousel .carousel-caption {
@@ -2187,14 +2228,15 @@ body:after {
   #featured header h2 {
     font-size: 1.7em; }
   /* Banner */
-  #banner header h2 {
-    font-size: 1.7em; }
-  #banner header .byline {
-    display: block;
-    width: 100%;
-    padding: 1em 1em 0em 1em !important;
-    font-size: 1.1em;
+  #banner header {
     color: #fff; }
+    #banner header h2 {
+      font-size: 1.7em; }
+    #banner header .byline {
+      display: block;
+      width: 100%;
+      font-size: 1.1em;
+      color: #fff; }
   /* Main */
   #main {
     padding: 4em 0em 3em 0em; }

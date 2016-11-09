@@ -30,9 +30,15 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
   });
 }]);
 
-app.controller("appController", ['$scope', 'getData', 'getSounds', 'getEpic', 'getMars', function($scope, getData, getSounds, getEpic, getMars) {
+app.controller("appController", ['$scope', 'getData', 'getSounds', 'getEpic', 'getMars', 'getImagery', 'getCoordinates', function($scope, getData, getSounds, getEpic, getMars, getImagery, getCoordinates) {
   $scope.pageTitle = "Picture of the Day";
 	$scope.headerTitle = "Jose DeLavalle";
+	$scope.defaultSearch = "New York";
+	$scope.rotate = true;
+	$scope.rotateIcon = function() {
+			$scope.rotate = !$scope.rotate;
+
+	};
   getData.get().then(function (msg) {
       $scope.data = msg.data;
       console.log($scope.data);
@@ -53,10 +59,29 @@ app.controller("appController", ['$scope', 'getData', 'getSounds', 'getEpic', 'g
       console.log($scope.epic);
   });
 
+
+
   getMars.get().then(function (msg) {
       $scope.mars = msg.data.photos;
       console.log($scope.mars);
   });
+
+	var lon = "100.75";
+	var lat = "2.5";
+	var thisDate = "2014-02-01";
+
+	getImagery.get(lat, lon, thisDate).then(function (msg) {
+      $scope.imagery = msg.data;
+      console.log($scope.imagery);
+  });
+
+	$scope.goGetCoordinates = function (loc) {
+		getCoordinates.get(loc.then(function (msg) {
+	      $scope.coordinates = msg.data;
+	      console.log($scope.coordinates);
+	  });
+	}
+
 }]);
 
 app.factory('getData', function ($http) {
@@ -91,6 +116,21 @@ app.factory('getMars', function ($http) {
     };
 });
 
+app.factory('getImagery', function ($http) {
+    return {
+        get: function (lat, lon, thisDate) {
+            return $http.get('https://api.nasa.gov/planetary/earth/imagery?lon=' + lon + '&lat=' + lat + '&date=' + thisDate + '&cloud_score=True&api_key=sFBD6hSaJ9HBP6U8qhXaBv6v9pKcTYtICStGJlOA');
+        }
+    };
+});
+
+app.factory('getCoordinates', function ($http) {
+		return {
+				get: function (loc) {
+						return $http.get(encodeURI('http://maps.googleapis.com/maps/api/geocode/json?address=' + loc));
+				}
+		};
+});
 app.directive('slideable', function () {
     return {
         restrict:'C',

@@ -6,14 +6,12 @@
       <section>
 
         <span class="image-border"><a href="#" class="image"><img src="images/logo.png" alt="" /></a></span>
-        <p slide-toggle="#picDetails" id="navToggle" class="icon fa-times"></p>
+        <p slide-toggle="#picDetails" id="navToggle" class="icon fa-chevron-up rotate down" ng-click="rotateIcon()" ng-class="rotate ? 'down' : ''"</p>
         <header>
-          <h2>{{pageTitle}}</h2>
+
+          <h2>{{data.title}}</h2>
+          <h3>{{data.date}}</h3>
           <span id="picDetails" class="byline slideable" showonload="true">
-
-
-
-            <p>{{data.date}}</p>
             <h3>{{data.copyright}}</h3>
             <p>{{data.explanation}}</p>
           </span>
@@ -22,7 +20,16 @@
       </section>
     </div>
   </div>
-
+  <div id="main">
+    <div class="container">
+      <a class="icon fa-map-marker fa-2x" ng-click="getUserLocation()"></a><br /><input type="text" placeholder="Enter Location" my-enter="goGetCoordinates(searchLoc)" ng-model="searchLoc"/><a class="button" ng-click="goGetCoordinates(searchLoc)">Get Satelite Imagery</a><hr />
+      <p ng-if="coordinates.lat">Latitude: {{coordinates.lat}} - Longitude: {{coordinates.lng}}</p>
+      <img src="{{imagery.url}}" />
+      <p>{{imagery.date}}</p>
+      <p ng-if="imagery.cloud_score">{{'Cloud Score: ' + imagery.cloud_score}}</p>
+      <p>{{imagery.id}}</p>
+    </div>
+  </div>
 <!-- Featured -->
   <div id="featured">
     <div class="container">
@@ -31,7 +38,7 @@
 
       </header>
       <hr />
-      <div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <div id="myCarousel" class="carousel slide carousel-fade" data-ride="carousel">
       <!-- Indicators -->
       <ol class="carousel-indicators">
         <li data-target="#myCarousel" data-slide-to="{{$index}}" ng-repeat="data in soundData" ng-class="{active : $first}"></li>
