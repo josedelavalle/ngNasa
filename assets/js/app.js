@@ -30,16 +30,18 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
   });
 }]);
 
-app.controller("appController", ['$scope', 'getData', 'getSounds', 'getEpic', 'getMars', 'getImagery', 'getCoordinates', 'geolocationSvc', function($scope, getData, getSounds, getEpic, getMars, getImagery, getCoordinates, geolocationSvc) {
+app.controller("appController", ['$scope', 'getPicOfTheDay', 'getSounds', 'getEpic', 'getMars', 'getImagery', 'getCoordinates', 'geolocationSvc', function($scope, getPicOfTheDay, getSounds, getEpic, getMars, getImagery, getCoordinates, geolocationSvc) {
   $scope.pageTitle = "Picture of the Day";
 	$scope.headerTitle = "Jose DeLavalle";
 	$scope.defaultSearch = "New York";
+	$scope.thisDate = "2016-10-08";
 	$scope.rotate = true;
 	$scope.rotateIcon = function() {
 			$scope.rotate = !$scope.rotate;
 
 	};
-  getData.get().then(function (msg) {
+
+  getPicOfTheDay.get($scope.thisDate).then(function (msg) {
       $scope.data = msg.data;
       console.log($scope.data);
   });
@@ -68,41 +70,49 @@ app.controller("appController", ['$scope', 'getData', 'getSounds', 'getEpic', 'g
 
 	var lon = "100.75";
 	var lat = "2.5";
-	var thisDate = "2014-02-01";
+
 
 
 
 	$scope.goGetCoordinates = function (loc) {
 		$scope.imagery = {date: "Searching"};
 		getCoordinates.get(loc).then(function (msg) {
-	      $scope.coordinates = msg.data.results[0].geometry.location;
+				console.log(msg);
+				$scope.coordinates = msg.data.results[0].geometry.location;
 	      console.log($scope.coordinates);
-				getImagery.get($scope.coordinates.lat, $scope.coordinates.lng, '2016-01-01').then(function (msg) {
+				getImagery.get($scope.coordinates.lat, $scope.coordinates.lng, $scope.thisDate).then(function (msg) {
 			      $scope.imagery = msg.data;
 			      console.log($scope.imagery);
 			  });
 	  });
-	}
+	};
 
 	$scope.getUserLocation = function captureUserLocation() {
 		$scope.imagery = {date: "Searching"};
     geolocationSvc.getCurrentPosition().then(function (onUserLocationFound) {
-			// console.log(onUserLocationFound);
+			console.log(onUserLocationFound);
 			$scope.coordinates = {lat: onUserLocationFound.coords.latitude, lng: onUserLocationFound.coords.longitude};
 
 			getImagery.get($scope.coordinates.lat, $scope.coordinates.lng, '2016-01-01').then(function (msg) {
 					$scope.imagery = msg.data;
 					// console.log($scope.imagery);
+			},
+				function (msg) {
+						$scope.imagery = {date: msg};
 			});
+		},
+			function (msg) {
+				console.log(msg.message);
+				$scope.imagery = {date: msg.message};
 		});
-	}
+	};
 
 }]);
 
-app.factory('getData', function ($http) {
+app.factory('getPicOfTheDay', function ($http) {
     return {
-        get: function () {
-            return $http.get('https://api.nasa.gov/planetary/apod?api_key=sFBD6hSaJ9HBP6U8qhXaBv6v9pKcTYtICStGJlOA');
+        get: function (thisDate) {
+            return $http.get('https://api.nasa.gov/planetary/apod?date='+thisDate+'&api_key=sFBD6hSaJ9HBP6U8qhXaBv6v9pKcTYtICStGJlOA');
         }
     };
 });
@@ -134,7 +144,7 @@ app.factory('getMars', function ($http) {
 app.factory('getImagery', function ($http) {
     return {
         get: function (lat, lon, thisDate) {
-						var thisURL = 'https://api.nasa.gov/planetary/earth/imagery?lon=' + lon + '&lat=' + lat + '&date=' + thisDate + '&cloud_score=True&api_key=sFBD6hSaJ9HBP6U8qhXaBv6v9pKcTYtICStGJlOA'
+						var thisURL = 'https://api.nasa.gov/planetary/earth/imagery?lon=' + lon + '&lat=' + lat + '&date=' + thisDate + '&cloud_score=True&api_key=sFBD6hSaJ9HBP6U8qhXaBv6v9pKcTYtICStGJlOA';
 						console.log(thisURL);
             return $http.get(thisURL);
 						// return $http.get('https://api.nasa.gov/planetary/earth/imagery?lon=' + lon + '&lat=' + lat + '&date=2014-02-01&cloud_score=True&api_key=sFBD6hSaJ9HBP6U8qhXaBv6v9pKcTYtICStGJlOA');
@@ -156,15 +166,16 @@ app.factory('geolocationSvc', ['$q', '$window', function ($q, $window) {
 
     function getCurrentPosition() {
         var deferred = $q.defer();
-
         if (!$window.navigator.geolocation) {
-            deferred.reject('Geolocation not supported.');
+						deferred.reject('Geolocation not supported.');
+
         } else {
             $window.navigator.geolocation.getCurrentPosition(
                 function (position) {
                     deferred.resolve(position);
                 },
                 function (err) {
+										console.log(err);
                     deferred.reject(err);
                 });
         }

@@ -1139,6 +1139,10 @@ input, textarea, select {
   line-height: 1.75em;
   color: #909090; }
 
+#userDate {
+  text-align: center;
+  margin: auto; }
+
 h1, h2, h3, h4, h5, h6 {
   line-height: 1em;
   text-transform: uppercase;
@@ -1155,7 +1159,8 @@ h2 {
 
 h3 {
   font-size: 1.60em;
-  line-height: 1.5em; }
+  line-height: 1.5em;
+  color: white !important; }
 
 strong, b {
   font-weight: 700;
@@ -1493,6 +1498,37 @@ body:after {
   background: #FFF; }
   #header .container {
     position: relative; }
+  #header .text {
+    outline: none;
+    height: 2.4em;
+    padding: 0em 0.60em;
+    border: 0;
+    border-radius: 5px;
+    border: 1px solid;
+    border-color: rgba(255, 255, 255, 0.2);
+    background: none;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 2.4em;
+    color: #ccc; }
+  #header .submit {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 2.4em;
+    padding: 0 0.70em 0 0.70em;
+    background: #6597CF;
+    display: block;
+    border: 0;
+    line-height: 2.5em;
+    border-radius: 0px 5px 5px 0px;
+    letter-spacing: 0.10em;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 1.1em;
+    color: #fff; }
 
 /* Logo */
 #logo {
@@ -1616,6 +1652,8 @@ body:after {
   background-size: cover !important;
   text-align: center;
   min-height: 400px; }
+  #banner header {
+    padding: 20px; }
   #banner header.hidden {
     visibility: hidden;
     -webkit-transition: display .5s ease;
@@ -1718,43 +1756,14 @@ body:after {
   and:            http://stackoverflow.com/questions/18548731/bootstrap-3-carousel-fading-to-new-slide-instead-of-sliding-to-new-slide
   Inspired from:  http://codepen.io/Rowno/pen/Afykb
 */
-#myCarousel {
-  text-align: center;
-  margin: auto;
-  height: 100%; }
-  #myCarousel img {
-    width: 100%; }
-  #myCarousel .carousel-caption {
-    top: 0;
-    bottom: auto;
-    background: rgba(0, 0, 0, 0.6); }
-    #myCarousel .carousel-caption h3 {
-      color: white !important; }
-  #myCarousel .carousel-indicators li {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    margin: 5px;
-    text-indent: 0;
-    cursor: pointer;
-    border: none;
-    border-radius: 50%;
-    background-color: #605c5c;
-    box-shadow: 1px 1px 1px 0px black; }
-  #myCarousel .carousel-indicators .active {
-    width: 20px;
-    height: 20px;
-    margin: 5px;
-    background-color: #fff; }
-
-#myCarousel2.carousel {
+#myCarousel2.carousel, #myCarousel {
   max-height: 400px;
   max-width: 400px;
   text-align: center;
   margin: auto;
   border-radius: 50%;
   overflow: hidden; }
-  #myCarousel2.carousel img {
+  #myCarousel2.carousel img, #myCarousel img {
     border-radius: 50%; }
 
 .carousel-fade .carousel-inner .item {
@@ -1776,6 +1785,9 @@ body:after {
 
 .carousel-fade .carousel-control {
   z-index: 2; }
+
+.carousel-control {
+  background: none !important; }
 
 /*
   WHAT IS NEW IN 3.3: "Added transforms to improve carousel performance in modern browsers."
@@ -2073,6 +2085,10 @@ body:after {
     display: block;
     text-align: center; }
   /* Forms */
+  .inputspace {
+    position: relative;
+    width: 100%;
+    text-align: center; }
   form input[type=text],
   form input[type=password],
   form select,
@@ -2220,6 +2236,20 @@ body:after {
     display: none; }
   #header {
     padding: 5em 0em !important; }
+    #header .text {
+      outline: none;
+      height: 2.4em;
+      padding: 0em 0.60em;
+      border: 0;
+      border-radius: 5px;
+      border: 1px solid;
+      border-color: rgba(255, 255, 255, 0.2);
+      background: none;
+      font-family: 'Source Sans Pro', sans-serif;
+      font-size: 1.1em;
+      font-weight: 300;
+      line-height: 2.4em;
+      color: #ccc; }
   /* Nav */
   #nav {
     display: none; }

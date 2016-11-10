@@ -33,87 +33,99 @@
 <!-- Featured -->
   <div id="featured">
     <div class="container">
-      <header>
-        <h2>MARS Rover</h2>
-
-      </header>
-      <hr />
-      <div id="myCarousel" class="carousel slide carousel-fade" data-ride="carousel">
-      <!-- Indicators -->
-      <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="{{$index}}" ng-repeat="data in soundData" ng-class="{active : $first}"></li>
-      </ol>
-
-      <!-- Wrapper for slides -->
-      <div class="carousel-inner" role="listbox">
 
 
-        <div class="item" ng-repeat="data in soundData" ng-class="{active : $first}">
-          <img ng-src="{{mars[$index % mars.length].img_src}}">
-          <div class="carousel-caption">
-            <h3>{{data.title}}</h3>
-            <p>{{data.last_modified}}</p>
+      <div class="row">
+
+
+        <div class="container 6u 12u(mobile)">
+          <section>
+            <header>
+              <h2>MARS Rover</h2>
+
+            </header>
+            <hr />
+          </section>
+
+          <div id="myCarousel" class="carousel slide carousel-fade">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+              <li data-target="#myCarousel" data-slide-to="{{$index}}" ng-repeat="data in mars" ng-class="{active : $first}"></li>
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+
+
+              <div class="item" ng-repeat="data in mars" ng-class="{active : $first}">
+                <img ng-src="{{data.img_src}}">
+                <div class="carousel-caption">
+                  <h3>{{data.camera.full_name}}</h3>
+                  <p>{{data.earth_date}}</p>
+                </div>
+              </div>
+
+
+            </div>
+
+            <!-- Left and right controls -->
+            <!-- <a class="left carousel-control" href="#" role="button" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#" role="button" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a> -->
           </div>
+          <hr />
+
         </div>
 
 
-      </div>
-
-      <!-- Left and right controls -->
-
-    </div>
-      <!-- <ul class="list">
-        <li class="list-item" ng-repeat="data in soundData">
-          <div class="list-content">
+        <div class="container 6u 12u(mobile)">
+          <section>
             <header>
-              <h2>{{data.title}}</h2>
+              <h2>EPIC Images</h2>
 
             </header>
-            <img src="" alt="" />
-            <p class="box-style">{{data.last_modified}}</p>
-            <a href="#" class="button">BUTTON</a>
+            <hr />
+          </section>
+
+
+          <div id="myCarousel2" class="carousel slide carousel-fade" data-ride="carousel" data-interval="2000">
+            <ol class="carousel-indicators">
+              <li data-target="#myCarousel2" data-slide-to="{{$index}}" ng-repeat="data in epic" ng-class="{active : $first}"></li>
+            </ol>
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+              <div class="item active">
+                <img ng-src="http://epic.gsfc.nasa.gov/epic-archive/natural/jpg/{{epic[0].image}}.jpg" alt="">
+                <div class="carousel-caption">
+                  <h3>Earth Polychromatic Imaging Camera</h3>
+                  <p>{{epic[0].date}}</p>
+                </div>
+              </div>
+              <div class="item" ng-repeat="data in epic" ng-if="$index > 0">
+                <img ng-src="http://epic.gsfc.nasa.gov/epic-archive/natural/jpg/{{data.image}}.jpg" alt="">
+                <div class="carousel-caption">
+                  <h3>Earth Polychromatic Imaging Camera</h3>
+                  <p>{{data.date}}</p>
+                </div>
+              </div>
+            </div>
           </div>
-        </li>
-      </ul> -->
+          <hr />
+
+
+        </div>
+      </div>
     </div>
   </div>
 
 <!-- Main -->
   <div id="main">
-    <div class="container">
-      <section>
-        <header>
-          <h2>EPIC Images</h2>
-          <span class="byline">Earth Polychromatic Imaging Camera</span>
-        </header>
-        <span class="divider">&nbsp;</span>
-      </section>
 
-
-      <div id="myCarousel2" class="carousel slide carousel-fade" data-ride="carousel" data-interval="2000">
-
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner" role="listbox">
-          <div class="item active">
-            <img ng-src="http://epic.gsfc.nasa.gov/epic-archive/natural/jpg/{{epic[0].image}}.jpg" alt="">
-            <div class="carousel-caption">
-
-              <p>{{epic[0].date}}</p>
-            </div>
-          </div>
-          <div class="item" ng-repeat="data in epic" ng-if="$index > 0">
-            <img ng-src="http://epic.gsfc.nasa.gov/epic-archive/natural/jpg/{{data.image}}.jpg" alt="">
-            <div class="carousel-caption">
-
-              <p>{{data.date}}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-
-
-    </div>
   </div>
 
   <div ng-include="'partials/footer.html'"></div>

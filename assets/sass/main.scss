@@ -61,6 +61,10 @@
 		line-height: 1.75em;
 		color: #909090;
 	}
+	#userDate {
+		text-align:center;
+		margin: auto;
+	}
 
 	h1, h2, h3, h4, h5, h6 {
 		line-height: 1em;
@@ -83,6 +87,7 @@
 	h3 {
 		font-size: 1.60em;
 		line-height: 1.5em;
+		color: white !important
 	}
 
 	strong, b {
@@ -541,6 +546,39 @@
 		.container {
 			position: relative;
 		}
+		.text {
+			outline: none;
+			height: 2.4em;
+			padding: 0em 0.60em;
+			border: 0;
+			border-radius: 5px;
+			border: 1px solid;
+			border-color: rgba(255, 255, 255, 0.2);
+			background: none;
+			font-family: 'Source Sans Pro', sans-serif;
+			font-size: 1.1em;
+			font-weight: 300;
+			line-height: 2.4em;
+			color: #ccc;
+		}
+		.submit {
+			position: absolute;
+			right: 0;
+			top: 0;
+			height: 2.4em;
+			padding: 0 0.70em 0 0.70em;
+			background: #6597CF;
+			display: block;
+			border: 0;
+			line-height: 2.5em;
+			border-radius: 0px 5px 5px 0px;
+			letter-spacing: 0.10em;
+			text-decoration: none;
+			text-transform: uppercase;
+			font-family: 'Fjalla One', sans-serif;
+			font-size: 1.1em;
+			color: #fff;
+		}
 	}
 
 /* Logo */
@@ -718,6 +756,9 @@
 
 		text-align: center;
 		min-height: 400px;
+		header {
+			padding:20px;
+		}
 		header.hidden {
 			  visibility: hidden;
 			  -webkit-transition: display .5s ease;
@@ -738,7 +779,8 @@
 				position: absolute;
 				font-size: 20pt !important;
 				color: white !important;
-				padding: 5px
+				padding: 5px;
+
 			}
 
 		}
@@ -874,44 +916,8 @@
   and:            http://stackoverflow.com/questions/18548731/bootstrap-3-carousel-fading-to-new-slide-instead-of-sliding-to-new-slide
   Inspired from:  http://codepen.io/Rowno/pen/Afykb
 */
-#myCarousel {
-	text-align: center;
-	margin: auto;
-	height: 100%;
-	img {
-		width: 100%;
-	}
-	.carousel-caption {
-    top: 0;
-    bottom: auto;
-		background: rgba(0,0,0,0.6);
-		h3 {
-			color: white !important;
-		}
-	}
 
-	.carousel-indicators li {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    margin: 5px;
-    text-indent: 0;
-    cursor: pointer;
-    border: none;
-    border-radius: 50%;
-    background-color: #605c5c;
-    // box-shadow: inset 1px 1px 1px 1px rgba(0,0,0,0.5);
-		box-shadow: 1px 1px 1px 0px black;
-}
-.carousel-indicators .active {
-    width: 20px;
-    height: 20px;
-    margin: 5px;
-    background-color: #fff;
-}
-
-}
-#myCarousel2.carousel {
+#myCarousel2.carousel, #myCarousel {
 	max-height: 400px;
 	max-width: 400px;
 	text-align:center;
@@ -947,6 +953,10 @@
 .carousel-fade .carousel-control {
   z-index: 2;
 }
+.carousel-control {
+	background: none !important;
+}
+
 
 
 
@@ -1397,7 +1407,11 @@
 			}
 
 		/* Forms */
-
+			.inputspace {
+				position: relative;
+				width: 100%;
+				text-align: center;
+			}
 			form {
 				input[type=text],
 				input[type=password],
@@ -1578,6 +1592,21 @@
 
 			#header {
 				padding: 5em 0em !important;
+				.text {
+					outline: none;
+					height: 2.4em;
+					padding: 0em 0.60em;
+					border: 0;
+					border-radius: 5px;
+					border: 1px solid;
+					border-color: rgba(255, 255, 255, 0.2);
+					background: none;
+					font-family: 'Source Sans Pro', sans-serif;
+					font-size: 1.1em;
+					font-weight: 300;
+					line-height: 2.4em;
+					color: #ccc;
+				}
 			}
 
 		/* Nav */
