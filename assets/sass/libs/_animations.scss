@@ -80,6 +80,9 @@
 @keyframes slideOutLeft {
     to      { transform: translateX(-400%); }
 }
+@keyframes slideOutRight {
+    to      { transform: translateX(400%); }
+}
 @keyframes slideOutLeftScreen {
     to      { transform: translateX(-100%); }
 }
@@ -116,7 +119,7 @@
 .ng-enter          { animation: scaleUp 1.0s both ease-in-out; z-index: 8889; }
 .ng-leave           { animation: slideOutLeft 0.5s both ease-in-out; z-index: 8889; }
 
-
+.fa-angle-right.ng-leave { animation: slideOutRight 0.5s both ease-in-out; z-index: 8889; }
 
 .rotate{
     -moz-transition: all 0.5s linear;

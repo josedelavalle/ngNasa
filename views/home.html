@@ -1,7 +1,7 @@
 
 
 <!-- Banner -->
-  <div id="banner" style="background: url({{data.hdurl}}) no-repeat;">
+  <div id="banner" style="background: url({{data.url}}) no-repeat;">
     <div class="container">
       <section>
 
@@ -22,7 +22,7 @@
   </div>
   <div id="main">
     <div class="container">
-      <a class="icon fa-map-marker fa-2x" ng-click="getUserLocation()"></a><br /><input type="text" placeholder="Enter Location" my-enter="goGetCoordinates(searchLoc)" ng-model="searchLoc"/><a class="button" ng-click="goGetCoordinates(searchLoc)">Get Satelite Imagery</a><hr />
+      <a class="icon fa-map-marker fa-4x" ng-click="getUserLocation()"></a><br /><input type="text" placeholder="Enter Location" my-enter="goGetCoordinates(searchLoc)" ng-model="searchLoc"/><a class="button" ng-click="goGetCoordinates(searchLoc)">Get Satelite Imagery</a><hr />
       <p ng-if="coordinates.lat">Latitude: {{coordinates.lat}} - Longitude: {{coordinates.lng}}</p>
       <img src="{{imagery.url}}" />
       <p>{{imagery.date}}</p>

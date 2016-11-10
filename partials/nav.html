@@ -1,23 +1,32 @@
+
 <div id="header">
+
+
   <div class="container">
 
     <!-- Logo -->
-      <h1 id="logo"><a href="/">TODAY</a></a></h1>
+      <h1 id="logo">
+        <a class="fa fa-angle-left" ng-click="goBack()"></a>
+        <a href="/">{{$parent.title}}</a>
+        <a class="fa fa-angle-right" ng-click="goForward()" ng-if="notToday"></a></h1>
 
       <!-- Nav -->
         <nav id="nav">
           <ul>
-            <li><a href="1">Left Sidebar</a></li>
-            <li><a href="2">Right Sidebar</a></li>
-            <li class="break"><a href="3">Two Sidebar</a></li>
-            <li><a href="4">No Sidebar</a></li>
+            <li><a href="#" ng-click="goBack()"></a></li>
+            <li class="break"><a href="#" ng-click="goForward()"></a></li>
           </ul>
         </nav>
 
-        <div id="newsletter">
-          <input type="text" class="text" name="email" placeholder="Email Address" />
-          <a href="#" class="submit">GO</a>
-        </div>
+
+
+
+
+        <header>
+          <h2>NASA Pic of the Day</h2>
+        </header>
+
+
 
   </div>
 </div>

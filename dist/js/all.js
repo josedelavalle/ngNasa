@@ -6,46 +6,66 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
 	$locationProvider.html5Mode(true);
 	$routeProvider
    .when('/', {
-    templateUrl: 'views/home.html',
-    controller: 'appController'
+    templateUrl: 'views/home.html'
   })
   .when('/1', {
-   templateUrl: 'views/left-sidebar.html',
-   controller: 'appController'
+   templateUrl: 'views/left-sidebar.html'
   })
   .when('/2', {
-   templateUrl: 'views/right-sidebar.html',
-   controller: 'appController'
+   templateUrl: 'views/right-sidebar.html'
   })
   .when('/3', {
-   templateUrl: 'views/two-sidebar.html',
-   controller: 'appController'
+   templateUrl: 'views/two-sidebar.html'
   })
   .when('/4', {
-   templateUrl: 'views/no-sidebar.html',
-   controller: 'appController'
+   templateUrl: 'views/no-sidebar.html'
   })
   .otherwise({
   	redirectTo: '/'
   });
 }]);
 
-app.controller("appController", ['$scope', 'getPicOfTheDay', 'getSounds', 'getEpic', 'getMars', 'getImagery', 'getCoordinates', 'geolocationSvc', function($scope, getPicOfTheDay, getSounds, getEpic, getMars, getImagery, getCoordinates, geolocationSvc) {
-  $scope.pageTitle = "Picture of the Day";
+app.controller("appController", ['$scope', '$filter', 'getPicOfTheDay', 'getSounds', 'getEpic', 'getMars', 'getImagery', 'getCoordinates', 'geolocationSvc', function($scope, $filter, getPicOfTheDay, getSounds, getEpic, getMars, getImagery, getCoordinates, geolocationSvc) {
+	$scope.title = $filter('date')(new Date(),'yyyy-MM-dd');
+	$scope.todayDate = $scope.title;
+	$scope.currentDate = new Date();
+	// currentDate.setDate(currentDate.getDate());
+	function formatDate() {
+		$scope.title = $filter('date')($scope.currentDate,'yyyy-MM-dd');
+		console.log($scope.title + ' - ' + $scope.todayDate);
+		if ($scope.title != $scope.todayDate) $scope.notToday = true; else $scope.notToday = false;
+		$scope.apply;
+	};
+
+	$scope.pageTitle = "Picture of the Day";
 	$scope.headerTitle = "Jose DeLavalle";
 	$scope.defaultSearch = "New York";
-	$scope.thisDate = "2016-10-08";
+
 	$scope.rotate = true;
 	$scope.rotateIcon = function() {
 			$scope.rotate = !$scope.rotate;
 
 	};
 
-  getPicOfTheDay.get($scope.thisDate).then(function (msg) {
+	$scope.goBack = function() {
+		$scope.currentDate.setDate($scope.currentDate.getDate() - 1)
+		formatDate();
+		goGetPic($scope.title);
+	}
+	$scope.goForward = function() {
+		$scope.currentDate.setDate($scope.currentDate.getDate() + 1)
+
+		formatDate();
+		goGetPic($scope.title);
+	}
+
+	function goGetPic(myDate) {
+  	getPicOfTheDay.get(myDate).then(function (msg) {
       $scope.data = msg.data;
       console.log($scope.data);
-  });
-
+  	});
+	};
+	goGetPic($scope.title);
 
   getSounds.get().then(function (msg) {
       $scope.soundData = msg.data.results;
