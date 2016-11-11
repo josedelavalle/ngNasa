@@ -1159,6 +1159,10 @@ input, textarea, select {
   color: darkred;
   margin: 10px 0 0 25px; }
 
+.md-datepicker-input-container {
+  visibility: hidden;
+  max-width: 0px; }
+
 h1, h2, h3, h4, h5, h6 {
   line-height: 1em;
   text-transform: uppercase;

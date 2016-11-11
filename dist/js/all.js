@@ -12,25 +12,25 @@ app.config(['$routeProvider', '$locationProvider', '$mdDateLocaleProvider', func
    .when('/', {
     templateUrl: 'views/home.html'
   })
-  .when('/1', {
-   templateUrl: 'views/left-sidebar.html'
-  })
-  .when('/2', {
-   templateUrl: 'views/right-sidebar.html'
-  })
-  .when('/3', {
-   templateUrl: 'views/two-sidebar.html'
-  })
-  .when('/4', {
-   templateUrl: 'views/no-sidebar.html'
-  })
+  // .when('/1', {
+  //  templateUrl: 'views/left-sidebar.html'
+  // })
+  // .when('/2', {
+  //  templateUrl: 'views/right-sidebar.html'
+  // })
+  // .when('/3', {
+  //  templateUrl: 'views/two-sidebar.html'
+  // })
+  // .when('/4', {
+  //  templateUrl: 'views/no-sidebar.html'
+  // })
   .otherwise({
   	redirectTo: '/'
   });
 }]);
 
 app.controller("appController", ['$scope', '$filter', 'getPicOfTheDay', 'getSounds', 'getEpic', 'getMars', 'getImagery', 'getCoordinates', 'geolocationSvc', function($scope, $filter, getPicOfTheDay, getSounds, getEpic, getMars, getImagery, getCoordinates, geolocationSvc) {
-	$scope.title = $filter('date')(new Date(),'yyyy-MM-dd');
+	$scope.title = formatDate(new Date());
 	$scope.todayDate = $scope.title;
 	console.log($scope.todayDate);
 	$scope.currentDate = new Date();
@@ -45,6 +45,7 @@ app.controller("appController", ['$scope', '$filter', 'getPicOfTheDay', 'getSoun
 
 	$scope.dateChanged = function () {
 		$scope.myDate = formatDate(this.myDate);
+		$scope.currentDate = this.myDate;
 		$scope.title = $scope.myDate;
 
 		checkToday();
@@ -78,16 +79,20 @@ app.controller("appController", ['$scope', '$filter', 'getPicOfTheDay', 'getSoun
 	};
 
 	$scope.goBack = function() {
+		console.log($scope.currentDate);
 		$scope.currentDate.setDate($scope.currentDate.getDate() - 1)
 		$scope.title = formatDate($scope.currentDate);
 		$scope.myDate = $scope.currentDate;
+		$scope.$apply;
 		checkToday();
 		goGetPic($scope.title);
 	}
 	$scope.goForward = function() {
+		console.log($scope.currentDate);
 		$scope.currentDate.setDate($scope.currentDate.getDate() + 1)
 		$scope.title = formatDate($scope.currentDate);
 		$scope.myDate = $scope.currentDate;
+		$scope.$apply;
 		checkToday();
 		goGetPic($scope.title);
 	}
