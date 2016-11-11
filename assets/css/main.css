@@ -1151,6 +1151,14 @@ input, textarea, select {
   text-align: center;
   margin: auto; }
 
+.datepickerdemo md-content {
+  display: flex; }
+
+.datepickerdemo .validation-messages {
+  font-size: 11px;
+  color: darkred;
+  margin: 10px 0 0 25px; }
+
 h1, h2, h3, h4, h5, h6 {
   line-height: 1em;
   text-transform: uppercase;
@@ -1168,7 +1176,7 @@ h2 {
 h3 {
   font-size: 1.60em;
   line-height: 1.5em;
-  color: white !important; }
+  color: white; }
 
 strong, b {
   font-weight: 700;
@@ -1409,25 +1417,6 @@ form .formerize-placeholder, form ::-webkit-input-placeholder, form :-moz-placeh
 form ::-moz-focus-inner {
   border: 0; }
 
-/* Tables */
-table {
-  width: 100%; }
-  table.default {
-    width: 100%; }
-    table.default tbody tr:nth-child(2n+2) {
-      background: #f4f4f4; }
-    table.default td {
-      padding: 0.5em 1em 0.5em 1em; }
-    table.default th {
-      text-align: left;
-      font-weight: 700;
-      padding: 0.5em 1em 0.5em 1em; }
-    table.default thead {
-      background: #444;
-      color: #fff; }
-    table.default tfoot {
-      background: #eee; }
-
 /* Buttons */
 .button {
   -moz-transition: background-color 0.25s ease-in-out;
@@ -1663,6 +1652,7 @@ body:after {
   position: relative;
   padding: 5em 0em;
   background-size: cover !important;
+  background-attachment: fixed;
   text-align: center;
   min-height: 400px; }
   #banner header {
@@ -1899,7 +1889,7 @@ body:after {
 #portfolio {
   position: relative;
   padding: 4em 0em;
-  background: #FFF; }
+  background: #f3f3f3; }
   #portfolio .image {
     margin-bottom: 2em;
     padding: 0.80em;
@@ -1949,7 +1939,8 @@ body:after {
     #portfolio .author h3 {
       margin: 0;
       padding: 0;
-      font-size: 1.6em; }
+      font-size: 1.6em;
+      color: black; }
     #portfolio .author span {
       display: block;
       margin-top: -4px;
@@ -2005,6 +1996,8 @@ body:after {
   /* Basic */
   body {
     font-size: 10pt; }
+  #picRow {
+    margin: 50px; }
   /* Portfolio */
   #portfolio .pbox1 {
     padding-top: 3em;
@@ -2016,6 +2009,8 @@ body:after {
 /* Narrow */
 @media screen and (max-width: 1080px) {
   /* Basic */
+  #picRow {
+    margin: 35px; }
   body {
     font-size: 10pt; }
   ul.social {
@@ -2038,6 +2033,8 @@ body:after {
   /* Basic */
   body {
     font-size: 10pt; }
+  #picRow {
+    margin: 25px; }
   ul.social {
     text-align: right; }
     ul.social li:last-child {
@@ -2083,6 +2080,8 @@ body:after {
     line-height: 1.75em;
     font-size: 10pt;
     letter-spacing: 0; }
+  #picRow {
+    margin: 20px; }
   h2 {
     font-size: 1.30em; }
   .container {

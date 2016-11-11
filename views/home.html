@@ -22,7 +22,16 @@
   </div>
   <div id="main">
     <div class="container">
-      <a class="icon fa-map-marker fa-4x" ng-click="getUserLocation()"></a><br /><input type="text" placeholder="Enter Location" my-enter="goGetCoordinates(searchLoc)" ng-model="searchLoc"/><a class="button" ng-click="goGetCoordinates(searchLoc)">Get Satelite Imagery</a><hr />
+      <a class="icon fa-map-marker fa-4x" ng-click="getUserLocation()"></a><br />
+
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Enter Location</label>
+        <input ng-model="searchLoc" my-enter="goGetCoordinates(searchLoc)">
+      </md-input-container>
+
+
+      <a class="button" ng-click="goGetCoordinates(searchLoc)">Get Satelite Imagery</a>
+      <hr />
       <p ng-if="coordinates.lat">Latitude: {{coordinates.lat}} - Longitude: {{coordinates.lng}}</p>
       <img src="{{imagery.url}}" />
       <p>{{imagery.date}}</p>
@@ -38,7 +47,7 @@
       <div class="row">
 
 
-        <div class="container 6u 12u(mobile)">
+        <div class="6u 12u(mobile)">
           <section>
             <header>
               <h2>MARS Rover</h2>
@@ -83,7 +92,7 @@
         </div>
 
 
-        <div class="container 6u 12u(mobile)">
+        <div class="6u 12u(mobile)">
           <section>
             <header>
               <h2>EPIC Images</h2>
@@ -123,9 +132,6 @@
     </div>
   </div>
 
-<!-- Main -->
-  <div id="main">
-
-  </div>
+  <!-- <div ng-include="'partials/main.html'"></div> -->
 
   <div ng-include="'partials/footer.html'"></div>

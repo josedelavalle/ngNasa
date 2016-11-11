@@ -1,7 +1,11 @@
-var app = angular.module('myApp', ['ngRoute', 'ngAnimate']);
+var app = angular.module('myApp', ['ngRoute', 'ngAnimate', 'ngAria', 'ngMessages', 'ngMaterial', 'material.svgAssetsCache', 'angularMoment']);
 
-app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider){
 
+
+app.config(['$routeProvider', '$locationProvider', '$mdDateLocaleProvider', function($routeProvider, $locationProvider, $mdDateLocaleProvider){
+	$mdDateLocaleProvider.formatDate = function(date) {
+       return moment(date).format('YYYY-MM-DD');
+    };
 	//ChartJsProvider.setOptions({ chartColors: myChartColors });
 	$locationProvider.html5Mode(true);
 	$routeProvider
@@ -28,14 +32,40 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
 app.controller("appController", ['$scope', '$filter', 'getPicOfTheDay', 'getSounds', 'getEpic', 'getMars', 'getImagery', 'getCoordinates', 'geolocationSvc', function($scope, $filter, getPicOfTheDay, getSounds, getEpic, getMars, getImagery, getCoordinates, geolocationSvc) {
 	$scope.title = $filter('date')(new Date(),'yyyy-MM-dd');
 	$scope.todayDate = $scope.title;
+	console.log($scope.todayDate);
 	$scope.currentDate = new Date();
 	// currentDate.setDate(currentDate.getDate());
-	function formatDate() {
-		$scope.title = $filter('date')($scope.currentDate,'yyyy-MM-dd');
-		console.log($scope.title + ' - ' + $scope.todayDate);
-		if ($scope.title != $scope.todayDate) $scope.notToday = true; else $scope.notToday = false;
-		$scope.apply;
+	$scope.mypics = ["images/pic01.jpg", "images/pic02.jpg", "images/pic03.jpg"];
+	console.log($scope.mypics);
+	function formatDate(thisdate) {
+		return $filter('date')(thisdate,'yyyy-MM-dd');
+		// console.log($scope.title + ' - ' + $scope.todayDate);
+		// $scope.apply;
 	};
+
+	$scope.dateChanged = function () {
+		$scope.myDate = formatDate(this.myDate);
+		$scope.title = $scope.myDate;
+
+		checkToday();
+		goGetPic($scope.title);
+	};
+	checkToday = function() {
+		if ($scope.title != $scope.todayDate) $scope.notToday = true; else $scope.notToday = false;
+	}
+	$scope.myDate = new Date();
+  $scope.minDate = new Date(
+     $scope.myDate.getFullYear(),
+     $scope.myDate.getMonth() - 2,
+     $scope.myDate.getDate());
+  $scope.maxDate = new Date(
+     $scope.myDate.getFullYear(),
+     $scope.myDate.getMonth(),
+     $scope.myDate.getDate());
+  $scope.onlyWeekendsPredicate = function(date) {
+     var day = date.getDay();
+     return day === 0 || day === 6;
+  }
 
 	$scope.pageTitle = "Picture of the Day";
 	$scope.headerTitle = "Jose DeLavalle";
@@ -49,13 +79,16 @@ app.controller("appController", ['$scope', '$filter', 'getPicOfTheDay', 'getSoun
 
 	$scope.goBack = function() {
 		$scope.currentDate.setDate($scope.currentDate.getDate() - 1)
-		formatDate();
+		$scope.title = formatDate($scope.currentDate);
+		$scope.myDate = $scope.currentDate;
+		checkToday();
 		goGetPic($scope.title);
 	}
 	$scope.goForward = function() {
 		$scope.currentDate.setDate($scope.currentDate.getDate() + 1)
-
-		formatDate();
+		$scope.title = formatDate($scope.currentDate);
+		$scope.myDate = $scope.currentDate;
+		checkToday();
 		goGetPic($scope.title);
 	}
 
@@ -100,7 +133,7 @@ app.controller("appController", ['$scope', '$filter', 'getPicOfTheDay', 'getSoun
 				console.log(msg);
 				$scope.coordinates = msg.data.results[0].geometry.location;
 	      console.log($scope.coordinates);
-				getImagery.get($scope.coordinates.lat, $scope.coordinates.lng, $scope.thisDate).then(function (msg) {
+				getImagery.get($scope.coordinates.lat, $scope.coordinates.lng, $scope.title).then(function (msg) {
 			      $scope.imagery = msg.data;
 			      console.log($scope.imagery);
 			  });

@@ -15,7 +15,13 @@
   "dependencies": {
     "angular": "^1.5.8",
     "angular-animate": "^1.5.8",
-    "angular-route": "^1.5.8"
+    "angular-aria": "^1.5.8",
+    "angular-material": "^1.1.1",
+    "angular-messages": "^1.5.8",
+    "angular-moment": "^1.0.0",
+    "angular-route": "^1.5.8",
+    "hammer": "0.0.5",
+    "moment": "^2.16.0"
   },
   "devDependencies": {
     "event-stream": "^3.3.4",
