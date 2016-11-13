@@ -22,23 +22,38 @@
   </div>
   <div id="main">
     <div class="container">
-      <a class="icon fa-map-marker fa-4x" ng-click="getUserLocation()"></a><br />
+      <div class="row">
+        <div class="3u"></div>
+        <div class="6u center">
+          <a class="icon fa-map-marker fa-4x" ng-click="getUserLocation()"></a><br />
 
-      <md-input-container class="md-block" flex-gt-sm>
-        <label>Enter Location</label>
-        <input ng-model="searchLoc" my-enter="goGetCoordinates(searchLoc)">
-      </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>Enter Location</label>
+            <input ng-model="searchLoc" my-enter="goGetCoordinates(searchLoc)">
+          </md-input-container>
+
+          <a class="button" ng-click="goGetCoordinates(searchLoc)">Get Satelite Imagery</a>
+          <hr />
+          <div id="my-spinner2" class="hidden">
+            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+          </div>
+          <p ng-if="coordinates.lat">Latitude: {{coordinates.lat}} - Longitude: {{coordinates.lng}}</p>
+          <p>{{imagery.date}}</p>
+          <div class="image">
+            <img ng-src="{{imagery.url}}" />
+          </div>
 
 
-      <a class="button" ng-click="goGetCoordinates(searchLoc)">Get Satelite Imagery</a>
-      <hr />
-      <p ng-if="coordinates.lat">Latitude: {{coordinates.lat}} - Longitude: {{coordinates.lng}}</p>
-      <img src="{{imagery.url}}" />
-      <p>{{imagery.date}}</p>
-      <p ng-if="imagery.cloud_score">{{'Cloud Score: ' + imagery.cloud_score}}</p>
-      <p>{{imagery.id}}</p>
+          <p ng-if="imagery.cloud_score">{{'Cloud Score: ' + imagery.cloud_score}}</p>
+
+        </div>
+        <div class="3u"></div>
+      </div>
     </div>
   </div>
+
+
+  <!-- <div ng-include="'partials/marsSection.html'"></div> -->
 <!-- Featured -->
   <div id="featured">
     <div class="container">
@@ -78,14 +93,14 @@
             </div>
 
             <!-- Left and right controls -->
-            <!-- <a class="left carousel-control" href="#" role="button" data-slide="prev">
+            <a class="left carousel-control" href="#" role="button" data-slide="prev">
               <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
               <span class="sr-only">Previous</span>
             </a>
             <a class="right carousel-control" href="#" role="button" data-slide="next">
               <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
               <span class="sr-only">Next</span>
-            </a> -->
+            </a>
           </div>
           <hr />
 

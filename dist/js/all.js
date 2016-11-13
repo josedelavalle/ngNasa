@@ -31,18 +31,27 @@ app.config(['$routeProvider', '$locationProvider', '$mdDateLocaleProvider', func
 
 app.controller("appController", ['$scope', '$filter', 'getPicOfTheDay', 'getSounds', 'getEpic', 'getMars', 'getImagery', 'getCoordinates', 'geolocationSvc', function($scope, $filter, getPicOfTheDay, getSounds, getEpic, getMars, getImagery, getCoordinates, geolocationSvc) {
 	$scope.title = formatDate(new Date());
+	$scope.path = "/";
+	notToday = false;
+	defaultPicture = "images/earth2.jpg";
 	$scope.todayDate = $scope.title;
-	console.log($scope.todayDate);
 	$scope.currentDate = new Date();
 	// currentDate.setDate(currentDate.getDate());
-	$scope.mypics = ["images/pic01.jpg", "images/pic02.jpg", "images/pic03.jpg"];
-	console.log($scope.mypics);
+	// $scope.mypics = ["images/pic01.jpg", "images/pic02.jpg", "images/pic03.jpg"];
 	function formatDate(thisdate) {
 		return $filter('date')(thisdate,'yyyy-MM-dd');
 		// console.log($scope.title + ' - ' + $scope.todayDate);
 		// $scope.apply;
-	};
-
+	}
+	$scope.initDatepicker = function(){
+        angular.element(".md-datepicker-button").each(function(){
+            var el = this;
+            var ip = angular.element(el).parent().find("input").bind('click', function(e){
+                angular.element(el).click();
+            });
+            angular.element(this).css('visibility', 'hidden');
+        });
+    };
 	$scope.dateChanged = function () {
 		$scope.myDate = formatDate(this.myDate);
 		$scope.currentDate = this.myDate;
@@ -52,8 +61,8 @@ app.controller("appController", ['$scope', '$filter', 'getPicOfTheDay', 'getSoun
 		goGetPic($scope.title);
 	};
 	checkToday = function() {
-		if ($scope.title != $scope.todayDate) $scope.notToday = true; else $scope.notToday = false;
-	}
+		if ($scope.title != $scope.todayDate) notToday = true; else notToday = false;
+	};
 	$scope.myDate = new Date();
   $scope.minDate = new Date(
      $scope.myDate.getFullYear(),
@@ -66,7 +75,7 @@ app.controller("appController", ['$scope', '$filter', 'getPicOfTheDay', 'getSoun
   $scope.onlyWeekendsPredicate = function(date) {
      var day = date.getDay();
      return day === 0 || day === 6;
-  }
+  };
 
 	$scope.pageTitle = "Picture of the Day";
 	$scope.headerTitle = "Jose DeLavalle";
@@ -79,35 +88,44 @@ app.controller("appController", ['$scope', '$filter', 'getPicOfTheDay', 'getSoun
 	};
 
 	$scope.goBack = function() {
-		console.log($scope.currentDate);
-		$scope.currentDate.setDate($scope.currentDate.getDate() - 1)
+		$scope.currentDate.setDate($scope.currentDate.getDate() - 1);
 		$scope.title = formatDate($scope.currentDate);
 		$scope.myDate = $scope.currentDate;
-		$scope.$apply;
 		checkToday();
 		goGetPic($scope.title);
-	}
+	};
 	$scope.goForward = function() {
-		console.log($scope.currentDate);
-		$scope.currentDate.setDate($scope.currentDate.getDate() + 1)
-		$scope.title = formatDate($scope.currentDate);
-		$scope.myDate = $scope.currentDate;
-		$scope.$apply;
-		checkToday();
-		goGetPic($scope.title);
-	}
+		if (notToday) {
+			$scope.currentDate.setDate($scope.currentDate.getDate() + 1);
+			$scope.title = formatDate($scope.currentDate);
+			$scope.myDate = $scope.currentDate;
+			checkToday();
+			goGetPic($scope.title);
+		}
+	};
 
 	function goGetPic(myDate) {
+		toggleSpinner('1');
   	getPicOfTheDay.get(myDate).then(function (msg) {
       $scope.data = msg.data;
-      console.log($scope.data);
-  	});
-	};
+
+			if ($scope.data.media_type == "video") {
+				$scope.data.url = defaultPicture;
+				$scope.data.title = "Video Support Coming Soon";
+				$scope.data.media_type = "";
+			}
+			toggleSpinner('1');
+  	}, function(msg) {
+			$scope.data = {title: msg.data.msg, copyright: 'Code: ' + msg.data.code, date: myDate, explanation: 'NASA Pic of the Day unavailable for this date', url: defaultPicture};
+			toggleSpinner('1');
+		});
+	}
 	goGetPic($scope.title);
 
   getSounds.get().then(function (msg) {
       $scope.soundData = msg.data.results;
-      console.log($scope.soundData);
+			// console.log("sounds data");
+      // console.log($scope.soundData);
       // $scope.audio = [];
       // for (i = 0; i < $scope.soundData.length; i++) {
       //   $scope.audio[i] = new Audio();
@@ -116,24 +134,17 @@ app.controller("appController", ['$scope', '$filter', 'getPicOfTheDay', 'getSoun
   });
   getEpic.get().then(function (msg) {
       $scope.epic = msg.data;
-      console.log($scope.epic);
   });
-
-
 
   getMars.get().then(function (msg) {
       $scope.mars = msg.data.photos;
-      console.log($scope.mars);
   });
-
-	var lon = "100.75";
-	var lat = "2.5";
-
-
 
 
 	$scope.goGetCoordinates = function (loc) {
-		$scope.imagery = {date: "Searching"};
+		toggleSpinner('2');
+		$scope.imagery = {};
+
 		getCoordinates.get(loc).then(function (msg) {
 				console.log(msg);
 				$scope.coordinates = msg.data.results[0].geometry.location;
@@ -141,28 +152,35 @@ app.controller("appController", ['$scope', '$filter', 'getPicOfTheDay', 'getSoun
 				getImagery.get($scope.coordinates.lat, $scope.coordinates.lng, $scope.title).then(function (msg) {
 			      $scope.imagery = msg.data;
 			      console.log($scope.imagery);
+						toggleSpinner('2');
 			  });
 	  });
 	};
-
+	function toggleSpinner(whichOne) {
+		$('#my-spinner' + whichOne).toggleClass("hidden");
+	}
 	$scope.getUserLocation = function captureUserLocation() {
-		$scope.imagery = {date: "Searching"};
+		toggleSpinner('2');
     geolocationSvc.getCurrentPosition().then(function (onUserLocationFound) {
-			console.log(onUserLocationFound);
+
 			$scope.coordinates = {lat: onUserLocationFound.coords.latitude, lng: onUserLocationFound.coords.longitude};
 
-			getImagery.get($scope.coordinates.lat, $scope.coordinates.lng, '2016-01-01').then(function (msg) {
+			getImagery.get($scope.coordinates.lat, $scope.coordinates.lng, $scope.title).then(function (msg) {
 					$scope.imagery = msg.data;
+					toggleSpinner('2');
 					// console.log($scope.imagery);
 			},
 				function (msg) {
 						$scope.imagery = {date: msg};
+						toggleSpinner('2');
 			});
 		},
 			function (msg) {
 				console.log(msg.message);
 				$scope.imagery = {date: msg.message};
+				toggleSpinner('2');
 		});
+
 	};
 
 }]);

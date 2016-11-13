@@ -1,14 +1,14 @@
 
 <div id="header">
 
-  <md-datepicker md-max-date="maxDate" ng-model="myDate" orientation="landscape" ng-change="dateChanged()"></md-datepicker>
+  <md-datepicker md-max-date="maxDate" ng-model="myDate" orientation="portrait" ng-change="dateChanged()"></md-datepicker>
   <div class="container">
 
     <!-- Logo -->
       <h1 id="logo">
         <a class="fa fa-angle-left" ng-click="goBack()"></a>
         <a href="/">{{title}}</a>
-        <a class="fa fa-angle-right" ng-click="goForward()" ng-if="notToday"></a></h1>
+        <a class="fa fa-angle-right" ng-click="goForward()"></a></h1>
 
       <!-- Nav -->
         <nav id="nav">
@@ -27,6 +27,9 @@
 
         <header>
           <h2>NASA Pic of the Day</h2>
+          <div id="my-spinner1" class="">
+            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+          </div>
         </header>
 
 
