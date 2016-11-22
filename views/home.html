@@ -57,66 +57,59 @@
 <!-- Featured -->
   <div id="featured">
     <div class="container">
-
-
       <div class="row">
-
-
         <div class="6u 12u(mobile)">
-          <section>
-            <header>
-              <h2>MARS Rover</h2>
 
-            </header>
+
+          <header>
+            <h2>MARS Rover</h2>
             <hr />
-          </section>
-
+          </header>
           <div id="myCarousel" class="carousel slide carousel-fade">
-            <!-- Indicators -->
-            <ol class="carousel-indicators">
-              <li data-target="#myCarousel" data-slide-to="{{$index}}" ng-repeat="data in mars" ng-class="{active : $first}"></li>
-            </ol>
+          <!-- Indicators -->
+          <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="{{$index}}" ng-repeat="data in mars" ng-class="{active : $first}"></li>
+          </ol>
 
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner" role="listbox">
+          <!-- Wrapper for slides -->
+          <div class="carousel-inner" role="listbox">
 
 
-              <div class="item" ng-repeat="data in mars" ng-class="{active : $first}">
-                <img ng-src="{{data.img_src}}">
-                <div class="carousel-caption">
-                  <h3>{{data.camera.full_name}}</h3>
-                  <p>{{data.earth_date}}</p>
-                </div>
+            <div class="item" ng-repeat="data in mars" ng-class="{active : $first}">
+              <img ng-src="{{data.img_src}}">
+              <div class="carousel-caption">
+                <h3>{{data.camera.full_name}}</h3>
+                <p>{{data.earth_date}}</p>
               </div>
-
-
             </div>
 
-            <!-- Left and right controls -->
-            <a class="left carousel-control" href="#" role="button" data-slide="prev">
-              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="right carousel-control" href="#" role="button" data-slide="next">
-              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
+
           </div>
-          <hr />
+
+          <!-- Left and right controls -->
+          <!-- <a class="left carousel-control" href="#" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="right carousel-control" href="#" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a> -->
+        </div>
+
+
+
 
         </div>
 
 
+
+
         <div class="6u 12u(mobile)">
-          <section>
-            <header>
-              <h2>EPIC Images</h2>
-
-            </header>
+          <header>
+            <h2>E.P.I.C. Images</h2>
             <hr />
-          </section>
-
-
+          </header>
           <div id="myCarousel2" class="carousel slide carousel-fade" data-ride="carousel" data-interval="2000">
             <ol class="carousel-indicators">
               <li data-target="#myCarousel2" data-slide-to="{{$index}}" ng-repeat="data in epic" ng-class="{active : $first}"></li>
@@ -139,10 +132,10 @@
               </div>
             </div>
           </div>
-          <hr />
-
-
         </div>
+
+
+
       </div>
     </div>
   </div>

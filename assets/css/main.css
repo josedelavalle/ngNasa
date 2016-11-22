@@ -1786,14 +1786,10 @@ body:after {
   Inspired from:  http://codepen.io/Rowno/pen/Afykb
 */
 #myCarousel2.carousel, #myCarousel {
-  max-height: 400px;
-  max-width: 400px;
+  width: 100%;
   text-align: center;
   margin: auto;
-  border-radius: 50%;
   overflow: hidden; }
-  #myCarousel2.carousel img, #myCarousel img {
-    border-radius: 50%; }
 
 .carousel-fade .carousel-inner .item {
   opacity: 0;
