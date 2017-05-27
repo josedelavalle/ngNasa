@@ -110,14 +110,14 @@
     to      { transform: translateY(0); }
 }
 
-/* when hiding the picture */
-.ng-hide-add         { animation:0.8s slideOutLeft ease; }
+// /* when hiding the picture */
+// .ng-hide-add         { animation:0.8s slideOutLeft ease; }
 
-/* when showing the picture */
-.ng-hide-remove      { animation:0.5s flipInX ease; }
+// /* when showing the picture */
+// .ng-hide-remove      { animation:0.5s flipInX ease; }
 
-.ng-enter          { animation: scaleUp 1.0s both ease-in-out; z-index: 8889; }
-.ng-leave           { animation: slideOutLeft 0.5s both ease-in-out; z-index: 8889; }
+// .ng-enter          { animation: scaleUp 1.0s both ease-in-out; z-index: 8889; }
+// .ng-leave           { animation: slideOutLeft 0.5s both ease-in-out; z-index: 8889; }
 
 .fa-angle-right.ng-leave { animation: slideOutRight 0.5s both ease-in-out; z-index: 8889; }
 

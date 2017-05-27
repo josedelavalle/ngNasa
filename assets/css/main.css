@@ -102,22 +102,6 @@
   to {
     transform: translateY(0); } }
 
-/* when hiding the picture */
-.ng-hide-add {
-  animation: 0.8s slideOutLeft ease; }
-
-/* when showing the picture */
-.ng-hide-remove {
-  animation: 0.5s flipInX ease; }
-
-.ng-enter {
-  animation: scaleUp 1.0s both ease-in-out;
-  z-index: 8889; }
-
-.ng-leave {
-  animation: slideOutLeft 0.5s both ease-in-out;
-  z-index: 8889; }
-
 .fa-angle-right.ng-leave {
   animation: slideOutRight 0.5s both ease-in-out;
   z-index: 8889; }
@@ -1158,6 +1142,21 @@ input, textarea, select {
   top: 0;
   left: 0; }
 
+.full-width {
+  width: 100% !important; }
+
+.margin-0 {
+  margin: 0 !important; }
+
+.padding-0 {
+  padding: 0 !important; }
+
+.item {
+  text-align: center; }
+
+.mars-image {
+  height: 600px !important; }
+
 md-input-container:not(.md-input-invalid).md-input-focused .md-input {
   border-color: #4676AA; }
 
@@ -1474,7 +1473,6 @@ form ::-moz-focus-inner {
 body:before {
   content: '';
   display: block;
-  padding: 0.4em 0em;
   background: #f3f3f3;
   box-shadow: inset 0 6px 8px -4px rgba(0, 0, 0, 0.1), inset 0 -4px 8px -8px rgba(0, 0, 0, 0.8); }
 
@@ -1499,8 +1497,12 @@ body:after {
   z-index: 3; }
 
 #header {
-  position: relative;
-  background: #FFF;
+  position: fixed;
+  min-height: 100px;
+  z-index: 9999;
+  width: 100%;
+  top: 0;
+  background: rgba(255, 255, 255, 0.9);
   text-align: center; }
   #header h2 {
     margin-top: 50px; }
@@ -1553,7 +1555,6 @@ body:after {
     border: 0;
     color: #4676AA;
     font-size: 3.7em;
-    background: #fff;
     padding: 0 0.5em 0 0.5em;
     outline: 0; }
     #logo a:hover {
@@ -1660,7 +1661,7 @@ body:after {
 
 #banner {
   position: relative;
-  padding: 5em 0em;
+  padding: 10em 0em;
   background-size: cover !important;
   background-attachment: fixed;
   text-align: center;
@@ -1695,6 +1696,7 @@ body:after {
   #banner md-grid-tile {
     transition: all 400ms ease-out 50ms; }
   #banner section #navToggle {
+    outline: none !important;
     position: absolute;
     font-size: 20pt !important;
     color: white !important;

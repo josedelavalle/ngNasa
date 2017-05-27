@@ -76,6 +76,25 @@
 		left: 0;
 	}
 
+	.full-width {
+		width: 100% !important;
+	}
+
+	.margin-0 {
+		margin: 0 !important;
+	}
+
+	.padding-0 {
+		padding: 0 !important;
+	}
+
+	.item {
+		text-align: center;
+	}
+
+	.mars-image {
+		height: 600px !important;
+	}
 
 	md-input-container:not(.md-input-invalid).md-input-focused .md-input {
 
@@ -560,7 +579,7 @@
 		&:before {
 			content: '';
 			display: block;
-			padding: 0.4em 0em;
+			//padding: 0.4em 0em;
 			background: #f3f3f3;
 			box-shadow: inset 0 6px 8px -4px rgba(0, 0, 0, 0.1), inset 0 -4px 8px -8px rgba(0, 0, 0, 0.8);
 		}
@@ -582,9 +601,13 @@
 	}
 
 	#header {
-		position: relative;
+		position: fixed;
+    	min-height: 100px;
+	    z-index: 9999;
+	    width: 100%;
+	    top: 0;
 		// padding: 4.35em 0em 2em 0em;
-		background: #FFF;
+		background: rgba(255,255,255,0.9);
 		text-align: center;
 		h2 {
 			margin-top: 50px;
@@ -644,7 +667,7 @@
 			border: 0;
 			color: #4676AA;
 			font-size: 3.7em;
-			background: #fff;
+			
 			padding: 0 0.5em 0 0.5em;
 			outline: 0;
 			&:hover {
@@ -800,7 +823,7 @@
 
 	#banner {
 		position: relative;
-		padding: 5em 0em;
+		padding: 10em 0em;
 		// background: url(../../images/bannerbg.jpg) no-repeat;
 		background-size: cover !important;
 		background-attachment: fixed;
@@ -856,6 +879,7 @@
 		section {
 
 			#navToggle {
+				outline: none !important;
 				position: absolute;
 				font-size: 20pt !important;
 				color: white !important;

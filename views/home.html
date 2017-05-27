@@ -58,14 +58,14 @@
   <div id="featured">
     <div class="container">
       <div class="row">
-        <div class="6u 12u(mobile)">
+        <div class="12u">
 
 
           <header>
             <h2>MARS Rover</h2>
             <hr />
           </header>
-          <div id="myCarousel" class="carousel slide carousel-fade">
+          <div ng-if="mars.length > 0" id="myCarousel" class="carousel slide carousel-fade">
           <!-- Indicators -->
           <ol class="carousel-indicators">
             <li data-target="#myCarousel" data-slide-to="{{$index}}" ng-repeat="data in mars" ng-class="{active : $first}"></li>
@@ -76,7 +76,7 @@
 
 
             <div class="item" ng-repeat="data in mars" ng-class="{active : $first}">
-              <img ng-src="{{data.img_src}}">
+              <img class="margin-0 full-width mars-image" ng-src="{{data.img_src}}">
               <div class="carousel-caption">
                 <h3>{{data.camera.full_name}}</h3>
                 <p>{{data.earth_date}}</p>
@@ -87,25 +87,26 @@
           </div>
 
           <!-- Left and right controls -->
-          <!-- <a class="left carousel-control" href="#" role="button" data-slide="prev">
+          <a class="left carousel-control" href="#" role="button" data-slide="prev">
             <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
           </a>
           <a class="right carousel-control" href="#" role="button" data-slide="next">
             <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
-          </a> -->
+          </a>
+        </div>
+
+        <div ng-if="mars.length==0 || !mars">
+            <h3 ng-click="goBack(2)" style="color: black">It takes time to beam images from Mars.  Try going back a couple days.</h3>
+        </div>
+
         </div>
 
 
 
 
-        </div>
-
-
-
-
-        <div class="6u 12u(mobile)">
+        <!-- <div class="6u 12u(mobile)">
           <header>
             <h2>E.P.I.C. Images</h2>
             <hr />
@@ -114,7 +115,7 @@
             <ol class="carousel-indicators">
               <li data-target="#myCarousel2" data-slide-to="{{$index}}" ng-repeat="data in epic" ng-class="{active : $first}"></li>
             </ol>
-            <!-- Wrapper for slides -->
+            
             <div class="carousel-inner" role="listbox">
               <div class="item active">
                 <img ng-src="http://epic.gsfc.nasa.gov/epic-archive/natural/jpg/{{epic[0].image}}.jpg" alt="">
@@ -133,7 +134,7 @@
             </div>
           </div>
         </div>
-
+ -->
 
 
       </div>
