@@ -29,6 +29,42 @@ app.config(['$routeProvider', '$locationProvider', '$mdDateLocaleProvider', func
   });
 }]);
 
+
+app.factory('ngNasaFactory', function ($http) {
+  apikey = 'sFBD6hSaJ9HBP6U8qhXaBv6v9pKcTYtICStGJlOA';
+  return {
+    getPicOfTheDay: function (thisDate) {
+        return $http.get('https://api.nasa.gov/planetary/apod?date='+thisDate+'&api_key=' + apikey);
+    },
+    getSounds: function () {
+        return $http.get('https://api.nasa.gov/planetary/sounds?q=apollo&api_key=sFBD6hSaJ9HBP6U8qhXaBv6v9pKcTYtICStGJlOA');
+    },
+    getEpic: function () {
+        var thisURL = 'https://epic.gsfc.nasa.gov/api/images.php';
+        //thisURL = "./assets/natural.json";
+        return $http.get(thisURL);
+    },
+    getMars: function(thisDate, whichRover) {
+      console.log(thisDate, whichRover);
+      var thisURL = 'https://api.nasa.gov/mars-photos/api/v1/rovers/' + whichRover + '/photos?earth_date=' + thisDate + '&api_key=' + apikey;
+      console.log(thisURL);
+        return $http.get(thisURL);
+    },
+    getImagery: function (lat, lon, thisDate) {
+        var thisURL = 'https://api.nasa.gov/planetary/earth/imagery?lon=' + lon + '&lat=' + lat + '&date=' + thisDate + '&cloud_score=True&api_key=' + apikey;
+        console.log(thisURL);
+        return $http.get(thisURL);
+        // return $http.get('https://api.nasa.gov/planetary/earth/imagery?lon=' + lon + '&lat=' + lat + '&date=2014-02-01&cloud_score=True&api_key=sFBD6hSaJ9HBP6U8qhXaBv6v9pKcTYtICStGJlOA');
+    },
+    getCoordinates: function (loc) {
+        return $http.get(encodeURI('http://maps.googleapis.com/maps/api/geocode/json?address=' + loc));
+    }
+  };
+});
+
+
+
+
 app.controller("appController", ['$scope', '$filter', 'ngNasaFactory', 'geolocationSvc', function($scope, $filter, ngNasaFactory, geolocationSvc) {
 	$scope.title = formatDate(new Date());
 	$scope.path = "/";
@@ -36,6 +72,8 @@ app.controller("appController", ['$scope', '$filter', 'ngNasaFactory', 'geolocat
 	defaultPicture = "images/earth2.jpg";
 	$scope.todayDate = $scope.title;
 	$scope.currentDate = new Date();
+
+  var whichRover = "curiosity";
 	// currentDate.setDate(currentDate.getDate());
 	// $scope.mypics = ["images/pic01.jpg", "images/pic02.jpg", "images/pic03.jpg"];
 	function formatDate(thisdate) {
@@ -59,7 +97,7 @@ app.controller("appController", ['$scope', '$filter', 'ngNasaFactory', 'geolocat
 
 		checkToday();
 		goGetPic($scope.title);
-    goGetMars();
+    goGetMars(whichRover);
 	};
 	checkToday = function() {
 		if ($scope.title != $scope.todayDate) notToday = true; else notToday = false;
@@ -95,7 +133,7 @@ app.controller("appController", ['$scope', '$filter', 'ngNasaFactory', 'geolocat
 		$scope.myDate = $scope.currentDate;
 		checkToday();
 		goGetPic($scope.title);
-    goGetMars();
+    goGetMars(whichRover);
 	};
 	$scope.goForward = function() {
 		if (notToday) {
@@ -104,7 +142,7 @@ app.controller("appController", ['$scope', '$filter', 'ngNasaFactory', 'geolocat
 			$scope.myDate = $scope.currentDate;
 			checkToday();
 			goGetPic($scope.title);
-      goGetMars();
+      goGetMars(whichRover);
 		}
 	};
 
@@ -112,11 +150,11 @@ app.controller("appController", ['$scope', '$filter', 'ngNasaFactory', 'geolocat
 		toggleSpinner('1');
   	ngNasaFactory.getPicOfTheDay(myDate).then(function (msg) {
       $scope.data = msg.data;
-
+      console.log('got pic of the day', msg);
 			if ($scope.data.media_type == "video") {
-				$scope.data.url = defaultPicture;
+				//$scope.data.url = defaultPicture;
 				$scope.data.title = "Video Support Coming Soon";
-				$scope.data.media_type = "";
+				//$scope.data.media_type = "";
 			}
 			toggleSpinner('1');
   	}, function(msg) {
@@ -126,26 +164,38 @@ app.controller("appController", ['$scope', '$filter', 'ngNasaFactory', 'geolocat
 	}
 	goGetPic($scope.title);
 
-  ngNasaFactory.getSounds().then(function (msg) {
-      $scope.soundData = msg.data.results;
-			// console.log("sounds data");
-      // console.log($scope.soundData);
-      // $scope.audio = [];
-      // for (i = 0; i < $scope.soundData.length; i++) {
-      //   $scope.audio[i] = new Audio();
-      //   $scope.audio[i].src = $scope.soundData[i].stream_url;
-      // }
-  });
-  ngNasaFactory.getEpic().then(function (msg) {
-      console.log('got mars', msg);
-      $scope.epic = msg.data;
-  }).catch(function(e) {
-      console.log('error getting epic data', e);
-  });
+  var getSounds = function () {
 
-  var goGetMars = function() {
 
-    ngNasaFactory.getMars(formatDate($scope.myDate)).then(function (msg) {
+    ngNasaFactory.getSounds().then(function (msg) {
+        console.log('got sounds', msg);
+        $scope.soundData = msg.data.results;
+  			// console.log("sounds data");
+        // console.log($scope.soundData);
+         $scope.audio = [];
+         for (i = 0; i < $scope.soundData.length; i++) {
+           $scope.audio[i] = new Audio();
+           $scope.audio[i].src = $scope.soundData[i].stream_url;
+         }
+    }).catch(function (e) {
+      console.log('error getting sounds', e);
+    });
+  };
+
+
+  var goGetEpic = function () {
+    ngNasaFactory.getEpic().then(function (msg) {
+        console.log('got mars', msg);
+        $scope.epic = msg.data;
+    }).catch(function(e) {
+        console.log('error getting epic data', e);
+    });
+  };
+
+  var goGetMars = function(r) {
+    whichRover = r;
+    console.log('getting mars images', r);
+    ngNasaFactory.getMars(formatDate($scope.myDate), r).then(function (msg) {
         console.log('got mars', msg);
         $scope.mars = msg.data.photos;
     }).catch(function(e) {
@@ -153,8 +203,8 @@ app.controller("appController", ['$scope', '$filter', 'ngNasaFactory', 'geolocat
         $scope.mars = {};
     });
   };
-  goGetMars();
-
+  goGetMars(whichRover);
+  $scope.goGetMars = goGetMars;
 
 	$scope.goGetCoordinates = function (loc) {
 		toggleSpinner('2');
@@ -199,39 +249,6 @@ app.controller("appController", ['$scope', '$filter', 'ngNasaFactory', 'geolocat
 	};
 
 }]);
-
-app.factory('ngNasaFactory', function ($http) {
-  return {
-    getPicOfTheDay: function (thisDate) {
-        return $http.get('https://api.nasa.gov/planetary/apod?date='+thisDate+'&api_key=sFBD6hSaJ9HBP6U8qhXaBv6v9pKcTYtICStGJlOA');
-    },
-    getSounds: function () {
-        return $http.get('./assets/sounds.json');
-    },
-    getEpic: function () {
-        var thisURL = 'https://epic.gsfc.nasa.gov/api/images.php';
-        //thisURL = "./assets/natural.json";
-        return $http.get(thisURL);
-    },
-    getMars: function(thisDate) {
-      console.log(thisDate);
-      var thisURL = 'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=' + thisDate + '&api_key=sFBD6hSaJ9HBP6U8qhXaBv6v9pKcTYtICStGJlOA';
-      console.log(thisURL);
-        return $http.get(thisURL);
-    },
-    getImagery: function (lat, lon, thisDate) {
-        var thisURL = 'https://api.nasa.gov/planetary/earth/imagery?lon=' + lon + '&lat=' + lat + '&date=' + thisDate + '&cloud_score=True&api_key=sFBD6hSaJ9HBP6U8qhXaBv6v9pKcTYtICStGJlOA';
-        console.log(thisURL);
-        return $http.get(thisURL);
-        // return $http.get('https://api.nasa.gov/planetary/earth/imagery?lon=' + lon + '&lat=' + lat + '&date=2014-02-01&cloud_score=True&api_key=sFBD6hSaJ9HBP6U8qhXaBv6v9pKcTYtICStGJlOA');
-    },
-    getCoordinates: function (loc) {
-        return $http.get(encodeURI('http://maps.googleapis.com/maps/api/geocode/json?address=' + loc));
-    }
-  };
-});
-
-
 
 
 

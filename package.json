@@ -20,8 +20,10 @@
     "angular-messages": "^1.5.8",
     "angular-moment": "^1.0.0",
     "angular-route": "^1.5.8",
+    "angular-slick": "0.0.0",
     "hammer": "0.0.5",
-    "moment": "^2.16.0"
+    "moment": "^2.16.0",
+    "slick-carousel": "^1.6.0"
   },
   "devDependencies": {
     "event-stream": "^3.3.4",
