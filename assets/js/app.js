@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ngRoute', 'ngAnimate', 'ngAria', 'ngMessages', 'ngMaterial', 'material.svgAssetsCache', 'angularMoment']);
+var app = angular.module('myApp', ['ngRoute', 'ngAnimate', 'ngAria', 'ngMessages', 'ngMaterial', 'angularMoment', 'ngMap']);
 
 
 
@@ -65,7 +65,7 @@ app.factory('ngNasaFactory', function ($http) {
 
 
 
-app.controller("appController", ['$scope', '$filter', 'ngNasaFactory', 'geolocationSvc', function($scope, $filter, ngNasaFactory, geolocationSvc) {
+app.controller("appController", ['$scope', '$filter', 'ngNasaFactory', 'geolocationSvc', 'NgMap', function($scope, $filter, ngNasaFactory, geolocationSvc, NgMap) {
 	$scope.title = formatDate(new Date());
 	$scope.path = "/";
 	notToday = false;
@@ -147,7 +147,7 @@ app.controller("appController", ['$scope', '$filter', 'ngNasaFactory', 'geolocat
 	};
 
 	function goGetPic(myDate) {
-		toggleSpinner('1');
+		$scope.showSpinner = true;
   	ngNasaFactory.getPicOfTheDay(myDate).then(function (msg) {
       $scope.data = msg.data;
       console.log('got pic of the day', msg);
@@ -156,10 +156,10 @@ app.controller("appController", ['$scope', '$filter', 'ngNasaFactory', 'geolocat
 				$scope.data.title = "Video Support Coming Soon";
 				//$scope.data.media_type = "";
 			}
-			toggleSpinner('1');
+			$scope.showSpinner = false;
   	}, function(msg) {
 			$scope.data = {title: msg.data.msg, copyright: 'Code: ' + msg.data.code, date: myDate, explanation: 'NASA Pic of the Day unavailable for this date', url: defaultPicture};
-			toggleSpinner('1');
+			$scope.showSpinner = false;
 		});
 	}
 	goGetPic($scope.title);
@@ -195,55 +195,65 @@ app.controller("appController", ['$scope', '$filter', 'ngNasaFactory', 'geolocat
   var goGetMars = function(r) {
     whichRover = r;
     console.log('getting mars images', r);
+    $scope.showSpinner = true;
+    $scope.mars = null;
     ngNasaFactory.getMars(formatDate($scope.myDate), r).then(function (msg) {
         console.log('got mars', msg);
         $scope.mars = msg.data.photos;
+        $scope.showSpinner = false;
     }).catch(function(e) {
         console.log('error getting mars data', e);
         $scope.mars = {};
+        $scope.showSpinner = false;
     });
   };
-  goGetMars(whichRover);
+  
   $scope.goGetMars = goGetMars;
 
 	$scope.goGetCoordinates = function (loc) {
-		toggleSpinner('2');
-		$scope.imagery = {};
-
+		$scope.showSpinner = true;
 		ngNasaFactory.getCoordinates(loc).then(function (msg) {
 				console.log(msg);
-				$scope.coordinates = msg.data.results[0].geometry.location;
-	      console.log($scope.coordinates);
-				ngNasaFactory.getImagery($scope.coordinates.lat, $scope.coordinates.lng, $scope.title).then(function (msg) {
-			      $scope.imagery = msg.data;
-			      console.log($scope.imagery);
-						toggleSpinner('2');
-			  });
+        if (msg.data.results.length > 0) {
+          $scope.coordinates = msg.data.results[0].geometry.location;
+          console.log($scope.coordinates);
+          ngNasaFactory.getImagery($scope.coordinates.lat, $scope.coordinates.lng, $scope.title).then(function (msg) {
+              console.log(msg);
+              if (msg.data.error) {
+                $scope.imagery = {url: "https://maps.googleapis.com/maps/api/staticmap?maptype=satellite&center=" + $scope.coordinates.lat + "," + $scope.coordinates.lng + "&zoom=11&size=400x400&key=AIzaSyBy34i8mK7IXxcAqmZfOEX70XZtNEt7D7s"};
+              } else {
+                $scope.imagery = msg.data;  
+              }
+              $scope.showSpinner = false;
+          });
+        } else {
+          $scope.showSpinner = false;
+          $scope.imagery = null;
+        }
+				
 	  });
 	};
-	function toggleSpinner(whichOne) {
-		$('#my-spinner' + whichOne).toggleClass("hidden");
-	}
+	
 	$scope.getUserLocation = function captureUserLocation() {
-		toggleSpinner('2');
+		$scope.showSpinner = true;
     geolocationSvc.getCurrentPosition().then(function (onUserLocationFound) {
-
+      console.log(onUserLocationFound);
 			$scope.coordinates = {lat: onUserLocationFound.coords.latitude, lng: onUserLocationFound.coords.longitude};
 
 			ngNasaFactory.getImagery($scope.coordinates.lat, $scope.coordinates.lng, $scope.title).then(function (msg) {
 					$scope.imagery = msg.data;
-					toggleSpinner('2');
+          $scope.showSpinner = false;
 					// console.log($scope.imagery);
 			},
 				function (msg) {
 						$scope.imagery = {date: msg};
-						toggleSpinner('2');
+	          $scope.showSpinner = false;
 			});
 		},
 			function (msg) {
 				console.log(msg.message);
 				$scope.imagery = {date: msg.message};
-				toggleSpinner('2');
+				$scope.showSpinner = false;
 		});
 
 	};

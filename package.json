@@ -23,6 +23,7 @@
     "angular-slick": "0.0.0",
     "hammer": "0.0.5",
     "moment": "^2.16.0",
+    "ngmap": "^1.18.4",
     "slick-carousel": "^1.6.0"
   },
   "devDependencies": {

@@ -1,15 +1,21 @@
 
 <div id="header">
-
-  <md-datepicker md-max-date="maxDate" ng-model="myDate" orientation="portrait" ng-change="dateChanged()"></md-datepicker>
+<header>
+          <!-- <h2>NASA Pic of the Day</h2> -->
+          <div id="my-spinner1" ng-show="showSpinner" class="loading">
+            <md-progress-linear md-mode="indeterminate"></md-progress-circular>
+          </div>
+        </header>
+  <md-datepicker class="datepicker" md-max-date="maxDate" ng-model="myDate" orientation="portrait" ng-change="dateChanged()"></md-datepicker>
   <div class="container">
 
     <!-- Logo -->
       <h1 id="logo">
-        <a class="fa fa-angle-left" ng-click="goBack()"></a>
-        <a href="/">{{title}}</a>
-        <a class="fa fa-angle-right" ng-click="goForward()"></a></h1>
-
+        <div class="date-controls text-center">
+          <a class="fa fa-angle-left pull-left margin-0" ng-click="goBack()"></a>
+          <span class="date-title">{{title}}</span>
+          <a class="fa fa-angle-right pull-right margin-0" ng-click="goForward()"></a></h1>
+        </div>
       <!-- Nav -->
         <nav id="nav">
           <ul>
@@ -25,12 +31,7 @@
 
 
 
-        <header>
-          <!-- <h2>NASA Pic of the Day</h2> -->
-          <div id="my-spinner1" class="">
-            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-          </div>
-        </header>
+        
 
 
 

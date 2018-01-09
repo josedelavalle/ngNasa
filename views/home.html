@@ -16,7 +16,7 @@
             <p>{{data.explanation}}</p>
           </span>
         </header>
-        <a href="https://api.nasa.gov/index.html" class="button">powered by api.nasa.gov</a>
+        <a href="https://api.nasa.gov/index.html" class="button nasa-api">powered by api.nasa.gov</a>
       </section>
     </div>
   </div>
@@ -26,44 +26,7 @@
         ></iframe>
       
   </div>
-  <div class="container" style="margin-top: 70px;">
-    <iframe width="100%" height="450" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/237670566&amp;auto_play=true&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true"></iframe>
-  </div>
-  <div id="main" class="hidden">
-    <div class="container">
-      <div class="row">
-        <div class="3u"></div>
-        <div class="6u center">
-          <a class="icon fa-map-marker fa-4x" ng-click="getUserLocation()"></a><br />
-
-          <md-input-container class="md-block" flex-gt-sm>
-            <label>Enter Location</label>
-            <input ng-model="searchLoc" my-enter="goGetCoordinates(searchLoc)">
-          </md-input-container>
-
-          <a class="button" ng-click="goGetCoordinates(searchLoc)">Get Satelite Imagery</a>
-          <hr />
-          <div id="my-spinner2" class="hidden">
-            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-          </div>
-          <p ng-if="coordinates.lat">Latitude: {{coordinates.lat}} - Longitude: {{coordinates.lng}}</p>
-          <p>{{imagery.date}}</p>
-          <div class="image">
-            <img ng-src="{{imagery.url}}" />
-          </div>
-
-
-          <p ng-if="imagery.cloud_score">{{'Cloud Score: ' + imagery.cloud_score}}</p>
-
-        </div>
-        <div class="3u"></div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- <div ng-include="'partials/marsSection.html'"></div> -->
-<!-- Featured -->
+  <!-- Featured -->
   <div id="featured">
     <div class="container">
       <div class="row">
@@ -72,26 +35,28 @@
 
           <header>
             <h2>MARS Rover</h2>
-
-           <select class="hidden" ng-init="whichRover='curiosity'" ng-model="whichRover" ng-change="goGetMars(whichRover)">
-              <option selected value="curiosity">Curiosity</option>
-              <option value="opportunity">Opportunity</option>
-              <option value="spirit">Spirit</option>
-           </select>
+            <md-input-container>
+        
+              <md-select class="rover-select" ng-model="whichRover" ng-change="goGetMars(whichRover)">
+                <md-option selected value="Curiosity">Curiosity</md-option>
+                <md-option value="Opportunity">Opportunity</md-option>
+              </md-select>
+            </md-input-container>
+          
 
             <hr />
           </header>
-          <div ng-if="mars.length > 0" id="myCarousel" class="carousel slide">
+          <div ng-if="mars.length > 0" id="mars" class="carousel slide">
           <!-- Indicators -->
           <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="{{$index}}" ng-repeat="data in mars" ng-class="{active : $first}"></li>
+            <li data-target="#mars" data-slide-to="{{$index}}" ng-repeat="data in mars" ng-class="{active : $first}"></li>
           </ol>
 
           <!-- Wrapper for slides -->
           <div class="carousel-inner" role="listbox">
 
 
-            <div class="item" ng-repeat="data in mars" ng-class="{active : $first}">
+            <div class="item" ng-repeat="data in mars track by $index" ng-class="{active : $first}">
         
               <img class="margin-0 full-width mars-image" ng-src="{{data.img_src}}">
               <div class="carousel-caption">
@@ -104,12 +69,13 @@
           </div>
 
           <!-- Left and right controls -->
-          <a class="left carousel-control" href="#myCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
-  <a class="right carousel-control" href="#myCarousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+          <a class="left carousel-control" href="#mars" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+          <a class="right carousel-control" href="#mars" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
         </div>
 
-        <div ng-if="mars.length==0 || !mars">
-            <h3 ng-click="goBack(2)" style="color: black">It takes time to beam images from Mars.  Try going back a couple days.</h3>
+        <div ng-if="mars.length==0 && !showSpinner">
+            <!-- <h3 ng-click="goBack(2)" style="color: black">It takes time to beam images from Mars.  Try going back a couple days.</h3> -->
+            <h3 class="no-images">No {{whichRover}} Rover Images Available for {{myDate | date}}</h3>
         </div>
 
         </div>
@@ -147,10 +113,53 @@
         </div>
  -->
 
-
+  
       </div>
     </div>
   </div>
+  <div id="main">
+    <div class="container">
+      <div class="row">
+        
+        <div class="12u center">
+          <a class="icon fa-map-marker fa-4x"></a><br />
+
+          <md-input-container id="search-loc" class="md-block" flex-gt-sm>
+            <label>Enter Location</label>
+            <input ng-model="searchLoc" my-enter="goGetCoordinates(searchLoc)">
+          </md-input-container>
+
+          <a class="button" ng-click="goGetCoordinates(searchLoc)">Get Satelite Imagery</a>
+          <hr />
+          <div id="my-spinner2" class="hidden">
+            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+          </div>
+
+          <p ng-if="coordinates.lat">Latitude: {{coordinates.lat}} - Longitude: {{coordinates.lng}}</p>
+          <p>{{imagery.date}}</p>
+          
+
+
+          <p ng-if="imagery.cloud_score">{{'Cloud Score: ' + imagery.cloud_score}}</p>
+
+        </div>
+        
+      </div>
+    </div>
+    <div class="image" ng-if="imagery">
+            <img height="400" ng-src="{{imagery.url}}" />
+          </div>
+  </div>
+
+
+  <!-- <div ng-include="'partials/marsSection.html'"></div> -->
+
+
+  <div class="container" style="margin-top: 70px;">
+    <iframe width="100%" height="450" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/237670566&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true"></iframe>
+    <hr>
+  </div>
+
   <script>
     $('.carousel .item').each(function(){
   var next = $(this).next();
