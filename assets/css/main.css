@@ -1181,11 +1181,12 @@ md-input-container:not(.md-input-invalid).md-input-focused .md-input {
   margin-left: 6px; }
 
 .md-datepicker-open .md-datepicker-calendar-icon {
-  margin-left: -11px; }
+  margin-left: -12px; }
 
 .md-datepicker-input-container {
   visibility: hidden;
-  max-width: 0px; }
+  max-width: 0px;
+  padding: 0 !important; }
 
 h1, h2, h3, h4, h5, h6 {
   line-height: 1em;

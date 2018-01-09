@@ -6,14 +6,14 @@
             <md-progress-linear md-mode="indeterminate"></md-progress-circular>
           </div>
         </header>
-  <md-datepicker class="datepicker" md-max-date="maxDate" ng-model="myDate" orientation="portrait" ng-change="dateChanged()"></md-datepicker>
+  <md-datepicker id="datepicker" class="datepicker" md-max-date="maxDate" ng-model="myDate" orientation="portrait" ng-change="dateChanged()" md-is-open="ctrl.isOpen"></md-datepicker>
   <div class="container">
 
     <!-- Logo -->
       <h1 id="logo">
         <div class="date-controls text-center">
           <a class="fa fa-angle-left pull-left margin-0" ng-click="goBack()"></a>
-          <span class="date-title">{{title}}</span>
+          <span class="date-title" ng-click="ctrl.isOpen = true">{{title}}</span>
           <a class="fa fa-angle-right pull-right margin-0" ng-click="goForward()"></a></h1>
         </div>
       <!-- Nav -->
