@@ -49,9 +49,11 @@
 		font-size: 11pt;
 		line-height: 1.75em;
 		color: #909090;
+		//white-space: nowrap;
 	}
 	* {
 		outline: none !important;
+		-webkit-overflow-scrolling: touch;
 	}
 	input, textarea, select {
 		font-family: 'Open Sans', sans-serif;

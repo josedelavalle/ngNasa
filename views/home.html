@@ -22,10 +22,11 @@
   </div>
   <div ng-if="data.media_type == 'video'">
       
-        <iframe class="videoiframe" src="https://www.youtube.com/embed/x_UaOhvLUYA?autoplay=1" frameborder="0" allowfullscreen
+        <iframe class="videoiframe" ng-src="{{videoUrl}}" frameborder="0" allowfullscreen
         ></iframe>
       
   </div>
+  
   <!-- Featured -->
   <div id="featured">
     <div class="container">

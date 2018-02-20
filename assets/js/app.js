@@ -65,7 +65,7 @@ app.factory('ngNasaFactory', function ($http) {
 
 
 
-app.controller("appController", ['$scope', '$window', '$filter', 'ngNasaFactory', 'geolocationSvc', 'NgMap', function($scope, $window, $filter, ngNasaFactory, geolocationSvc, NgMap) {
+app.controller("appController", ['$scope', '$sce', '$window', '$filter', 'ngNasaFactory', 'geolocationSvc', 'NgMap', function($scope, $sce, $window, $filter, ngNasaFactory, geolocationSvc, NgMap) {
 	$scope.title = formatDate(new Date());
 	$scope.path = "/";
   $window.location.href+="#mars";
@@ -156,10 +156,19 @@ app.controller("appController", ['$scope', '$window', '$filter', 'ngNasaFactory'
 		$scope.showSpinner = true;
   	ngNasaFactory.getPicOfTheDay(myDate).then(function (msg) {
       $scope.data = msg.data;
-      //console.log('got pic of the day', msg);
+      console.log('got pic of the day', msg);
 			if ($scope.data.media_type == "video") {
 				//$scope.data.url = defaultPicture;
-				$scope.data.title = "Video Support Coming Soon";
+				//$scope.data.title = "Video Support Coming Soon";
+        if (msg.data.url.indexOf("?") == -1) {
+            msg.data.url += "?";
+        } else {
+            msg.data.url += "&";
+        }
+        msg.data.url += "autoplay=1";
+
+        $scope.videoUrl = $sce.trustAsResourceUrl(msg.data.url);
+
 				//$scope.data.media_type = "";
 			}
 			$scope.showSpinner = false;
